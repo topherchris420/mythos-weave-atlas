@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { ArchetypalLandform, NavigationMode, SymbolicTool } from '@/types/mythos';
@@ -11,6 +10,8 @@ import { ArchetypalLandscape } from './ArchetypalLandscape';
 import { DreamTuningChamber } from './DreamTuningChamber';
 import { LandformDetails } from './LandformDetails';
 import { CosmicResonanceField } from './CosmicResonanceField';
+import { RitualSpace } from './RitualSpace';
+import { IntegrationChamber } from './IntegrationChamber';
 
 export const MythOSInterface = () => {
   const { psychicState, setPsychicState } = usePsychicState();
@@ -97,6 +98,24 @@ export const MythOSInterface = () => {
     }, 2000);
   };
 
+  // Add new handler for ritual completion
+  const handleRitualComplete = (ritual: string) => {
+    setRitualPhase(`Sacred ritual completed: ${ritual}`);
+    // Manifest a special landform based on the ritual
+    manifestLandform('altar', 9);
+  };
+
+  // Add new handler for integration completion
+  const handleIntegrationComplete = (integration: string) => {
+    setRitualPhase(`Integration embodied: ${integration}`);
+    // Update psychic state based on successful integration
+    setPsychicState(prev => ({
+      ...prev,
+      integration: Math.min(10, prev.integration + 2),
+      clarity: Math.min(10, prev.clarity + 1)
+    }));
+  };
+
   return (
     <div className={`min-h-screen ${getBackgroundPattern()} text-slate-800 transition-all duration-1000`}>
       <CosmicResonanceField psychicState={psychicState} />
@@ -142,8 +161,23 @@ export const MythOSInterface = () => {
           </Card>
         )}
 
+        {navigationMode === 'ritual' && (
+          <RitualSpace
+            selectedTool={selectedTool}
+            onRitualComplete={handleRitualComplete}
+          />
+        )}
+
         {navigationMode === 'dream' && (
           <DreamTuningChamber onInitiateDreamTuning={initiateDreamTuning} />
+        )}
+
+        {navigationMode === 'integration' && (
+          <IntegrationChamber
+            landforms={landforms}
+            psychicState={psychicState}
+            onIntegrationComplete={handleIntegrationComplete}
+          />
         )}
 
         {selectedLandform && (
