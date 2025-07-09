@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -39,20 +40,23 @@ All colors MUST be HSL.
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* MythOS Symbolic Color Palette */
+    --mythic-crystal: 252 100% 85%;
+    --mythic-flame: 14 91% 60%;
+    --mythic-forest: 142 76% 36%;
+    --mythic-shadow: 215 25% 27%;
+    --mythic-gold: 45 93% 47%;
+    --mythic-river: 199 89% 48%;
+    --mythic-mountain: 215 14% 34%;
+    --mythic-abyss: 263 70% 50%;
   }
 
   .dark {
@@ -101,5 +105,71 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Symbolic Interface Animations */
+  .mythic-pulse {
+    animation: mythic-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .landform-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .landform-hover:hover {
+    transform: scale(1.1) translateY(-4px);
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+  }
+
+  .glyph-carving {
+    cursor: crosshair;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                                rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  }
+
+  .symbolic-resonance {
+    background: conic-gradient(from 0deg at 50% 50%, 
+                               hsl(var(--mythic-crystal)) 0deg,
+                               hsl(var(--mythic-flame)) 60deg,
+                               hsl(var(--mythic-forest)) 120deg,
+                               hsl(var(--mythic-river)) 180deg,
+                               hsl(var(--mythic-mountain)) 240deg,
+                               hsl(var(--mythic-abyss)) 300deg,
+                               hsl(var(--mythic-crystal)) 360deg);
+    opacity: 0.1;
+  }
+}
+
+@keyframes mythic-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+}
+
+/* Archetypal Morphing Effects */
+.terrain-morph {
+  transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.psychic-resonance {
+  animation: psychic-flow 5s ease-in-out infinite;
+}
+
+@keyframes psychic-flow {
+  0%, 100% { 
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  33% { 
+    filter: hue-rotate(120deg) brightness(1.1);
+  }
+  66% { 
+    filter: hue-rotate(240deg) brightness(0.9);
   }
 }
