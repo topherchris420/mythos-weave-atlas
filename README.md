@@ -58,7 +58,7 @@ This mystical interface is built with modern web technologies:
 
 1. Clone the repository:
 ```bash
-git clone <your-repository-url>
+git clone topherchris420/mythos-weave-atlas
 cd mythos
 ```
 
