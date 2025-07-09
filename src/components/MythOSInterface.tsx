@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { Eye, Compass, BookOpen, Sparkles, Moon, Sun, Star, Heart, Zap, Shield, Mountain, Waves, TreePine, Flame, Crystal } from 'lucide-react';
+import { Eye, Compass, BookOpen, Sparkles, Moon, Sun, Star, Heart, Zap, Shield, Mountain, Waves, TreePine, Flame, Gem } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
@@ -41,15 +40,15 @@ const LANDFORM_ARCHETYPES = {
   cave: { icon: Shield, color: 'from-gray-600 to-slate-800', name: 'Shadow Cave' },
   altar: { icon: Star, color: 'from-gold-400 to-amber-600', name: 'Sacred Altar' },
   abyss: { icon: Eye, color: 'from-purple-800 to-indigo-900', name: 'Abyss of Doubt' },
-  crystal: { icon: Crystal, color: 'from-violet-400 to-purple-600', name: 'Crystal of Clarity' },
+  crystal: { icon: Gem, color: 'from-violet-400 to-purple-600', name: 'Crystal of Clarity' },
   flame: { icon: Flame, color: 'from-orange-400 to-red-600', name: 'Flame of Transformation' }
 };
 
-const SYMBOLIC_TOOLS = [
+const SYMBOLIC_TOOLS: SymbolicTool[] = [
   { id: 'compass', name: 'Compass of Clarity', type: 'compass', power: 8, resonance: 'clarity', icon: Compass },
   { id: 'torch', name: 'Torch of Insight', type: 'torch', power: 7, resonance: 'illumination', icon: Sun },
   { id: 'mirror', name: 'Mirror of Recognition', type: 'mirror', power: 9, resonance: 'reflection', icon: Eye },
-  { id: 'crystal', name: 'Crystal of Resonance', type: 'crystal', power: 6, resonance: 'harmony', icon: Crystal }
+  { id: 'crystal', name: 'Crystal of Resonance', type: 'crystal', power: 6, resonance: 'harmony', icon: Gem }
 ];
 
 export const MythOSInterface = () => {
@@ -218,7 +217,7 @@ export const MythOSInterface = () => {
               { mode: 'overview', icon: Compass, name: 'Overview' },
               { mode: 'ritual', icon: Star, name: 'Ritual Space' },
               { mode: 'dream', icon: Moon, name: 'Dream Tuning' },
-              { mode: 'integration', icon: Crystal, name: 'Integration' }
+              { mode: 'integration', icon: Gem, name: 'Integration' }
             ].map(({ mode, icon: Icon, name }) => (
               <Button
                 key={mode}
