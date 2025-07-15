@@ -117,16 +117,29 @@ export const MythOSInterface = () => {
   };
 
   return (
-    <div className={`min-h-screen ${getBackgroundPattern()} text-slate-800 transition-all duration-1000`}>
+    <div className={`min-h-screen ${getBackgroundPattern()} text-slate-800 transition-all duration-1000 relative overflow-hidden`}>
+      {/* 3D Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="mythic-3d-bg">
+          <div className="floating-crystal floating-crystal-1"></div>
+          <div className="floating-crystal floating-crystal-2"></div>
+          <div className="floating-crystal floating-crystal-3"></div>
+          <div className="floating-pyramid floating-pyramid-1"></div>
+          <div className="floating-pyramid floating-pyramid-2"></div>
+          <div className="floating-sphere floating-sphere-1"></div>
+          <div className="floating-sphere floating-sphere-2"></div>
+        </div>
+      </div>
+
       <CosmicResonanceField psychicState={psychicState} />
 
-      <div className="relative z-10 container mx-auto p-6">
+      <div className="relative z-10 container mx-auto p-3 sm:p-6">
         {/* Archetypal Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-slate-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold bg-gradient-to-r from-slate-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
             MythOS
           </h1>
-          <p className="text-xl text-slate-600 opacity-80">
+          <p className="text-sm sm:text-lg md:text-xl text-slate-600 opacity-80 px-4">
             Symbolic Navigation System for the Inner Landscape
           </p>
           {ritualPhase && (
@@ -144,8 +157,8 @@ export const MythOSInterface = () => {
 
         {/* Main Symbolic Interface */}
         {navigationMode === 'overview' && (
-          <Card className="bg-white/60 backdrop-blur-sm border-purple-200/30 shadow-xl p-8">
-            <h2 className="text-3xl font-bold text-slate-700 mb-6 text-center">Archetypal Cartography</h2>
+          <Card className="bg-white/60 backdrop-blur-sm border-purple-200/30 shadow-xl p-4 sm:p-6 md:p-8">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-700 mb-4 sm:mb-6 text-center">Archetypal Cartography</h2>
             
             <ArchetypalLandscape
               landforms={landforms}
