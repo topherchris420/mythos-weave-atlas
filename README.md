@@ -145,5 +145,3 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 *"The privilege of a lifetime is to become who you truly are."* - Carl Jung
-
-Begin your archetypal journey today with MythOS.
