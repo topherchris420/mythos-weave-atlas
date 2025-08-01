@@ -15,7 +15,7 @@ export const SymbolicTools: React.FC<SymbolicToolsProps> = ({
 }) => {
   return (
     <div className="mt-4 sm:mt-6">
-      <h3 className="text-lg sm:text-xl font-semibold text-slate-700 mb-3 sm:mb-4 text-center">Sacred Instruments</h3>
+      <h3 className="text-lg sm:text-xl font-semibold text-slate-700 mb-3 sm:mb-4 text-center">Choose Your Tool</h3>
       <div className="grid grid-cols-2 sm:flex sm:justify-center gap-3 sm:space-x-4 sm:gap-0">
         {activeTools.map(tool => {
           const ToolIcon = tool.icon;

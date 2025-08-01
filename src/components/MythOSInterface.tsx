@@ -12,6 +12,7 @@ import { LandformDetails } from './LandformDetails';
 import { CosmicResonanceField } from './CosmicResonanceField';
 import { RitualSpace } from './RitualSpace';
 import { IntegrationChamber } from './IntegrationChamber';
+import { EmotionalGuidance } from './EmotionalGuidance';
 
 export const MythOSInterface = () => {
   const { psychicState, setPsychicState } = usePsychicState();
@@ -134,7 +135,7 @@ export const MythOSInterface = () => {
       <CosmicResonanceField psychicState={psychicState} />
 
       <div className="relative z-10 container mx-auto p-3 sm:p-6">
-        {/* Archetypal Header */}
+        {/* Breakthrough Header */}
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-800 mb-2 drop-shadow-lg">
             <span className="bg-gradient-to-r from-slate-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
@@ -142,7 +143,10 @@ export const MythOSInterface = () => {
             </span>
           </h1>
           <p className="text-sm sm:text-lg md:text-xl text-slate-600 opacity-80 px-4 drop-shadow-sm">
-            Symbolic Navigation System for the Inner Landscape
+            Break through mental blocks with symbolic thinking
+          </p>
+          <p className="text-xs sm:text-sm text-slate-500 mt-2 px-4">
+            When you're stuck in the same thoughts, your mind needs a different language
           </p>
           {ritualPhase && (
             <div className="mt-4 p-4 bg-white/60 backdrop-blur-sm rounded-lg border border-purple-200/30 shadow-lg">
@@ -151,16 +155,20 @@ export const MythOSInterface = () => {
           )}
         </div>
 
+        <EmotionalGuidance psychicState={psychicState} />
         <PsychicStateIndicators psychicState={psychicState} />
         <NavigationModeSelector 
           navigationMode={navigationMode} 
           setNavigationMode={setNavigationMode} 
         />
 
-        {/* Main Symbolic Interface */}
+        {/* Main Interface */}
         {navigationMode === 'overview' && (
           <Card className="bg-white/60 backdrop-blur-sm border-purple-200/30 shadow-xl p-4 sm:p-6 md:p-8">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-700 mb-4 sm:mb-6 text-center">Archetypal Cartography</h2>
+            <div className="text-center mb-6">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-700 mb-2">Your Mind's Canvas</h2>
+              <p className="text-sm text-slate-600">Touch and interact to express what words can't capture</p>
+            </div>
             
             <ArchetypalLandscape
               landforms={landforms}
