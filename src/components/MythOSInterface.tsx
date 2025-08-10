@@ -13,6 +13,7 @@ import { CosmicResonanceField } from './CosmicResonanceField';
 import { RitualSpace } from './RitualSpace';
 import { IntegrationChamber } from './IntegrationChamber';
 import { EmotionalGuidance } from './EmotionalGuidance';
+import { Soundscapes } from './Soundscapes';
 
 export const MythOSInterface = () => {
   const { psychicState, setPsychicState } = usePsychicState();
@@ -181,6 +182,10 @@ export const MythOSInterface = () => {
               selectedTool={selectedTool}
               setSelectedTool={setSelectedTool}
             />
+
+            <section aria-label="Ambient soundscapes" className="mt-6">
+              <Soundscapes />
+            </section>
           </Card>
         )}
 
