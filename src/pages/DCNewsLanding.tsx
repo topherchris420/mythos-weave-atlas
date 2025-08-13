@@ -72,9 +72,12 @@ const DCNewsLanding = () => {
               <h1 className="text-3xl font-bold text-foreground">DC Local News</h1>
               <p className="text-muted-foreground mt-1">Your source for Washington, DC area news and events</p>
             </div>
-            <Badge variant="secondary" className="text-sm">
-              Live Updates
-            </Badge>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="text-sm">
+                Live Updates
+              </Badge>
+              <span className="text-xs text-muted-foreground">4</span>
+            </div>
           </div>
         </div>
       </header>
@@ -96,6 +99,8 @@ const DCNewsLanding = () => {
                 <span>Published 30 minutes ago</span>
                 <span className="mx-2">•</span>
                 <span>City Politics</span>
+                <span className="mx-2">•</span>
+                <span className="text-xs">0</span>
               </div>
             </div>
           </Card>
@@ -200,7 +205,7 @@ const DCNewsLanding = () => {
             </div>
           </div>
           <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; 2024 DC Local News. All rights reserved.</p>
+            <p>&copy; 2024 DC Local News. All rights reserved. <span className="text-xs">1</span></p>
           </div>
         </div>
       </footer>
