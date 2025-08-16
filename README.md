@@ -1,6 +1,6 @@
-# MythOS - Archetypal Narrative Operating System
+# (Hidden) MythOS - Archetypal Narrative Operating System
 
-Navigate the archetypal landscape of your soul through symbolic narrative mapping and transform your lived experiences into an evolving mythological structure.
+Navigate the archetypal landscape of your soul behind the news articles through symbolic narrative mapping and transform your lived experiences into an evolving mythological structure.
 
 ## 🌟 Features
 
