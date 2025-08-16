@@ -63,20 +63,40 @@ const DCNewsLanding = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900">
       {/* Header */}
-      <header className="border-b bg-card">
+      <header className="bg-gradient-to-r from-blue-900/90 to-blue-800/90 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">DC Local News</h1>
-              <p className="text-muted-foreground mt-1">Your source for Washington, DC area news and events</p>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <span className="text-6xl font-bold text-white">4</span>
+                <div className="flex flex-col">
+                  <span className="text-xl font-bold text-white">WASHINGTON</span>
+                  <span className="text-sm text-blue-200">DC LOCAL NEWS</span>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="text-sm">
-                Live Updates
+            <div className="flex items-center gap-4">
+              <div className="bg-red-600 text-white px-3 py-1 rounded text-sm font-semibold">
+                LIVE 24/7
+              </div>
+              <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+                Breaking News
               </Badge>
-              <span className="text-xs text-muted-foreground">4</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Trending Bar */}
+        <div className="bg-blue-800/50 py-2">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-center gap-4">
+              <span className="text-orange-400 font-semibold text-sm">TRENDING</span>
+              <div className="flex items-center gap-2">
+                <span className="text-white text-sm">🚨 DC Police Takeover</span>
+                <span className="text-blue-200 text-sm">📍 Reagan National Update</span>
+              </div>
             </div>
           </div>
         </div>
@@ -84,23 +104,22 @@ const DCNewsLanding = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
-        {/* Featured Article */}
-        <section className="mb-12">
-          <Card className="overflow-hidden">
-            <div className="p-8">
-              <Badge className="mb-4">Breaking News</Badge>
-              <h2 className="text-3xl font-bold mb-4 text-foreground">
-                DC Council Approves Major Infrastructure Investment
+        {/* Featured Live Stream Card */}
+        <section className="mb-8">
+          <Card className="bg-gradient-to-r from-blue-800/90 to-blue-700/90 border-blue-600 overflow-hidden">
+            <div className="p-8 text-white">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="bg-red-600 text-white px-2 py-1 rounded text-xs font-semibold flex items-center gap-2">
+                  ● LIVE: NBC4
+                </div>
+                <span className="text-blue-200 text-sm">Watch Now: News4 Streaming 24/7</span>
+              </div>
+              <h2 className="text-2xl font-bold mb-4">
+                Breaking: Trump admin agrees to keep DC police chief in place, but with immigration order
               </h2>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                The DC Council unanimously approved a $2.8 billion infrastructure package focusing on roads, bridges, and public transportation improvements. The plan includes major upgrades to the Rock Creek Parkway and expansion of bike lanes throughout the district.
-              </p>
-              <div className="flex items-center text-sm text-muted-foreground">
-                <span>Published 30 minutes ago</span>
-                <span className="mx-2">•</span>
-                <span>City Politics</span>
-                <span className="mx-2">•</span>
-                <span className="text-xs">0</span>
+              <div className="flex items-center text-sm text-blue-200">
+                <span className="bg-blue-700 px-2 py-1 rounded text-xs mr-3">DC POLICE TAKEOVER</span>
+                <span>13 HOURS AGO</span>
               </div>
             </div>
           </Card>
@@ -108,23 +127,22 @@ const DCNewsLanding = () => {
 
         {/* News Grid */}
         <section className="mb-12">
-          <h3 className="text-2xl font-semibold mb-6 text-foreground">Latest News</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6">
             {newsArticles.map((article) => (
-              <Card key={article.id} className="hover:shadow-lg transition-shadow">
+              <Card key={article.id} className="bg-white/95 hover:bg-white transition-all border-blue-200">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between mb-3">
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700 border-blue-200">
                       {article.category}
                     </Badge>
-                    <span className="text-xs text-muted-foreground">{article.time}</span>
+                    <span className="text-xs text-gray-500 font-medium">{article.time.toUpperCase()}</span>
                   </div>
-                  <CardTitle className="text-lg leading-tight mb-3">
+                  <CardTitle className="text-lg leading-tight mb-3 text-gray-900 font-bold">
                     {article.headline}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed">
                     {article.snippet}
                   </p>
                 </CardContent>
@@ -135,26 +153,26 @@ const DCNewsLanding = () => {
 
         {/* Search Section */}
         <section className="mb-8">
-          <Card className="max-w-2xl mx-auto">
+          <Card className="max-w-2xl mx-auto bg-white/95 border-blue-200">
             <CardHeader className="text-center">
-              <CardTitle className="text-xl">Search Local News</CardTitle>
-              <p className="text-muted-foreground">
+              <CardTitle className="text-xl text-gray-900">Search Local News</CardTitle>
+              <p className="text-gray-600">
                 Find articles, events, and updates from around the DC area
               </p>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
                     type="password"
                     placeholder="Search news, events, neighborhoods..."
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
-                    className="pl-10 h-12"
+                    className="pl-10 h-12 border-blue-200 focus:border-blue-500"
                   />
                 </div>
-                <Button type="submit" className="w-full h-12">
+                <Button type="submit" className="w-full h-12 bg-blue-700 hover:bg-blue-800">
                   Search News
                 </Button>
               </form>
@@ -164,12 +182,12 @@ const DCNewsLanding = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t bg-muted/30 py-8">
+      <footer className="bg-blue-900/80 py-8 mt-8">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <h4 className="font-semibold mb-3 text-foreground">Local News</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <h4 className="font-semibold mb-3 text-white">Local News</h4>
+              <ul className="space-y-2 text-sm text-blue-200">
                 <li>Capitol Hill</li>
                 <li>Georgetown</li>
                 <li>Dupont Circle</li>
@@ -177,8 +195,8 @@ const DCNewsLanding = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 text-foreground">Government</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <h4 className="font-semibold mb-3 text-white">Government</h4>
+              <ul className="space-y-2 text-sm text-blue-200">
                 <li>DC Council</li>
                 <li>Mayor's Office</li>
                 <li>Federal Updates</li>
@@ -186,8 +204,8 @@ const DCNewsLanding = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 text-foreground">Events</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <h4 className="font-semibold mb-3 text-white">Events</h4>
+              <ul className="space-y-2 text-sm text-blue-200">
                 <li>Cultural Events</li>
                 <li>Food & Dining</li>
                 <li>Sports</li>
@@ -195,8 +213,8 @@ const DCNewsLanding = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 text-foreground">Resources</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <h4 className="font-semibold mb-3 text-white">Resources</h4>
+              <ul className="space-y-2 text-sm text-blue-200">
                 <li>Weather</li>
                 <li>Traffic</li>
                 <li>Metro Updates</li>
@@ -204,8 +222,9 @@ const DCNewsLanding = () => {
               </ul>
             </div>
           </div>
-          <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; 2024 DC Local News. All rights reserved. <span className="text-xs">1</span></p>
+          <div className="border-t border-blue-700 mt-8 pt-8 text-center text-sm text-blue-200">
+            <p>&copy; 2024 DC Local News. All rights reserved. <span className="text-xs text-blue-300">1</span></p>
+            <p className="mt-2 text-xs text-blue-300">Stay informed with News<span className="text-white font-bold">4</span> Washington • <span className="text-blue-300">0</span>% bias guarantee</p>
           </div>
         </div>
       </footer>
