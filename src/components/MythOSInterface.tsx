@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
-import { ArchetypalLandform, NavigationMode, SymbolicTool } from '@/types/mythos';
+import { ArchetypalLandform, NavigationMode, SymbolicTool, RitualProgress } from '@/types/mythos';
 import { LANDFORM_ARCHETYPES, SYMBOLIC_TOOLS } from '@/constants/mythos';
 import { usePsychicState } from '@/hooks/usePsychicState';
+import { storage, STORAGE_KEYS } from '@/hooks/useMythosStorage';
 import { PsychicStateIndicators } from './PsychicStateIndicators';
 import { NavigationModeSelector } from './NavigationModeSelector';
 import { SymbolicTools } from './SymbolicTools';
@@ -14,15 +15,42 @@ import { RitualSpace } from './RitualSpace';
 import { IntegrationChamber } from './IntegrationChamber';
 import { EmotionalGuidance } from './EmotionalGuidance';
 import { Soundscapes } from './Soundscapes';
+import { Journal } from './Journal';
+import { Journal } from './Journal';
 
 export const MythOSInterface = () => {
   const { psychicState, setPsychicState } = usePsychicState();
-  const [landforms, setLandforms] = useState<ArchetypalLandform[]>([]);
+
+  // Load persisted state
+  const [landforms, setLandforms] = useState<ArchetypalLandform[]>(() => {
+    return storage.get(STORAGE_KEYS.LANDFORMS, []);
+  });
+
   const [selectedLandform, setSelectedLandform] = useState<ArchetypalLandform | null>(null);
   const [activeTools, setActiveTools] = useState<SymbolicTool[]>(SYMBOLIC_TOOLS);
   const [selectedTool, setSelectedTool] = useState<SymbolicTool | null>(null);
-  const [navigationMode, setNavigationMode] = useState<NavigationMode>('overview');
+  const [navigationMode, setNavigationMode] = useState<NavigationMode>(() => {
+    return storage.get(STORAGE_KEYS.NAVIGATION_MODE, 'overview');
+  });
   const [ritualPhase, setRitualPhase] = useState<string>('');
+  const [ritualProgress, setRitualProgress] = useState<RitualProgress>(() =>
+    storage.get(STORAGE_KEYS.RITUAL_PROGRESS, { earth: false, fire: false, water: false, air: false })
+  );
+
+  // Persist landforms when they change
+  useEffect(() => {
+    storage.set(STORAGE_KEYS.LANDFORMS, landforms);
+  }, [landforms]);
+
+  // Persist navigation mode when it changes
+  useEffect(() => {
+    storage.set(STORAGE_KEYS.NAVIGATION_MODE, navigationMode);
+  }, [navigationMode]);
+
+  // Persist ritual progress when it changes
+  useEffect(() => {
+    storage.set(STORAGE_KEYS.RITUAL_PROGRESS, ritualProgress);
+  }, [ritualProgress]);
 
   // Dynamic background based on psychic state
   const getBackgroundPattern = () => {
@@ -206,6 +234,10 @@ export const MythOSInterface = () => {
             psychicState={psychicState}
             onIntegrationComplete={handleIntegrationComplete}
           />
+        )}
+
+        {navigationMode === 'journal' && (
+          <Journal />
         )}
 
         {selectedLandform && (

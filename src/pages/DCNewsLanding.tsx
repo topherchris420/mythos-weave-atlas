@@ -1,72 +1,22 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Clock, ChevronRight, Cloud, Thermometer, Wind } from 'lucide-react';
+import { Search, Clock, Cloud, Thermometer, Wind, RefreshCw, AlertCircle, ExternalLink, Mail } from 'lucide-react';
+import { useDCNews } from '@/hooks/useDCNews';
 
 const DCNewsLanding = () => {
   const [searchValue, setSearchValue] = useState('');
-  const navigate = useNavigate();
+  const { articles, loading, error, refresh } = useDCNews();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchValue === '401') {
-      navigate('/mythos');
+    // Hidden shortcut: typing "137" redirects to james_library
+    if (searchValue === '137') {
+      window.location.href = 'https://github.com/topherchris420/james_library';
     }
   };
 
-  const navLinks = ['Local', 'Politics', 'Crime & Safety', 'Weather', 'Traffic', 'Sports', 'Entertainment'];
-
-  const newsArticles = [
-    {
-      id: 1,
-      headline: "Metro Announces New Purple Line Extension Plans",
-      snippet: "WMATA officials unveiled comprehensive plans for extending the Purple Line through downtown DC, connecting Silver Spring to Bethesda with new stations planned for H Street and Capitol Hill areas.",
-      category: "Transportation",
-      time: "2 hours ago",
-      author: "Sarah Mitchell"
-    },
-    {
-      id: 2,
-      headline: "Cherry Blossom Festival Sets Record Attendance",
-      snippet: "The National Cherry Blossom Festival concluded with over 1.5 million visitors, marking the highest attendance in the event's history. Peak bloom lasted an unprecedented 12 days this year.",
-      category: "Culture",
-      time: "4 hours ago",
-      author: "James Rivera"
-    },
-    {
-      id: 3,
-      headline: "Capitol Hill Farmers Market Expands Weekend Hours",
-      snippet: "Eastern Market's popular farmers market will now operate Saturday and Sunday mornings year-round, featuring local vendors from Maryland and Virginia farms.",
-      category: "Local Business",
-      time: "6 hours ago",
-      author: "Linda Park"
-    },
-    {
-      id: 4,
-      headline: "Smithsonian Opens New Climate Change Exhibition",
-      snippet: "The National Museum of Natural History unveils 'Our Planet's Future,' an interactive exhibition exploring climate science and environmental solutions.",
-      category: "Science",
-      time: "8 hours ago",
-      author: "David Chen"
-    },
-    {
-      id: 5,
-      headline: "DC Housing Authority Announces Affordable Units",
-      snippet: "Mayor announces 500 new affordable housing units across Wards 6, 7, and 8, with applications opening next month for income-qualified residents.",
-      category: "Housing",
-      time: "12 hours ago",
-      author: "Maria Santos"
-    },
-    {
-      id: 6,
-      headline: "Georgetown Waterfront Park Renovation Complete",
-      snippet: "The historic waterfront park reopens with new walking trails, improved lighting, and enhanced public art installations celebrating DC's maritime heritage.",
-      category: "Parks",
-      time: "1 day ago",
-      author: "Tom Bradley"
-    }
-  ];
+  const navLinks = ['Local', 'Politics', 'Crime & Safety', 'Weather', 'Traffic', 'Sports', 'Entertainment', 'Contact'];
 
   const sidebarStories = [
     "Council approves new bike lane network for NW",
@@ -76,18 +26,56 @@ const DCNewsLanding = () => {
     "Weekend road closures planned for Marathon prep",
   ];
 
+  const isContactPage = searchValue.toLowerCase() === 'contact';
+
+  // Format published time
+  const formatTime = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffMs = now.getTime() - date.getTime();
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffDays = Math.floor(diffHours / 24);
+
+      if (diffHours < 1) return 'Just now';
+      if (diffHours < 24) return `${diffHours} hours ago`;
+      if (diffDays === 1) return 'Yesterday';
+      if (diffDays < 7) return `${diffDays} days ago`;
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    } catch {
+      return dateString;
+    }
+  };
+
+  // Get current date
+  const today = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  // Current weather (simulated)
+  const [weather] = useState({
+    temp: 58,
+    condition: 'Partly Cloudy',
+    high: 64,
+    low: 41,
+    wind: 'NW 8 mph'
+  });
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Top Bar */}
       <div className="bg-blue-950 text-white">
         <div className="max-w-7xl mx-auto px-4 py-1.5 flex items-center justify-between text-xs">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1"><Thermometer className="h-3 w-3" /> 58°F</span>
-            <span className="flex items-center gap-1"><Cloud className="h-3 w-3" /> Partly Cloudy</span>
-            <span className="flex items-center gap-1"><Wind className="h-3 w-3" /> 8 mph NW</span>
+            <span className="flex items-center gap-1"><Thermometer className="h-3 w-3" /> {weather.temp}°F</span>
+            <span className="flex items-center gap-1"><Cloud className="h-3 w-3" /> {weather.condition}</span>
+            <span className="flex items-center gap-1"><Wind className="h-3 w-3" /> {weather.wind}</span>
           </div>
           <div className="flex items-center gap-3">
-            <span>Wednesday, February 26, 2026</span>
+            <span>{today}</span>
             <span className="text-blue-300">|</span>
             <span className="text-red-400 font-semibold animate-pulse">● LIVE</span>
           </div>
@@ -127,12 +115,21 @@ const DCNewsLanding = () => {
       {/* Navigation */}
       <nav className="bg-blue-900 text-white sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-0 overflow-x-auto scrollbar-hide">
-            {navLinks.map((link) => (
-              <button key={link} className="px-4 py-2.5 text-sm font-medium hover:bg-blue-800 transition-colors whitespace-nowrap border-b-2 border-transparent hover:border-white/50">
-                {link}
-              </button>
-            ))}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-0 overflow-x-auto scrollbar-hide">
+              {navLinks.map((link) => (
+                <button key={link} className="px-4 py-2.5 text-sm font-medium hover:bg-blue-800 transition-colors whitespace-nowrap border-b-2 border-transparent hover:border-white/50">
+                  {link}
+                </button>
+              ))}
+            </div>
+            <a
+              href="mailto:ciao_chris@proton.me"
+              className="px-4 py-2.5 text-sm font-medium bg-red-600 hover:bg-red-700 transition-colors flex items-center gap-2 whitespace-nowrap"
+            >
+              <Mail className="h-4 w-4" />
+              Contact
+            </a>
           </div>
         </div>
       </nav>
@@ -141,55 +138,122 @@ const DCNewsLanding = () => {
       <div className="bg-red-700 text-white">
         <div className="max-w-7xl mx-auto px-4 py-1.5 flex items-center gap-3 text-sm">
           <span className="bg-white text-red-700 px-2 py-0.5 rounded-sm text-xs font-black tracking-wide shrink-0">BREAKING</span>
-          <p className="truncate font-medium">Trump admin agrees to keep DC police chief in place, but with immigration order — Full coverage at NBC<span className="font-bold">4</span></p>
+          <p className="truncate font-medium">
+            {loading ? 'Loading latest news...' : articles[0]?.title || 'Refresh for latest updates'}
+          </p>
         </div>
       </div>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-6">
+        {/* API Status Banner */}
+        {error && (
+          <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-md flex items-center gap-2 text-sm text-amber-800">
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            <span className="flex-1">{error}</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={refresh}
+              className="text-amber-700 hover:text-amber-900"
+            >
+              <RefreshCw className="h-3 w-3 mr-1" />
+              Retry
+            </Button>
+          </div>
+        )}
+
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-0">
             {/* Lead Story */}
-            <article className="bg-white border border-gray-200 p-6 mb-4">
-              <span className="text-xs font-bold text-red-600 uppercase tracking-wider">Top Story</span>
-              <h1 className="text-2xl md:text-3xl font-black text-gray-900 mt-2 mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
-                Breaking: DC Police Chief to Remain, Administration Issues New Immigration Order
-              </h1>
-              <p className="text-gray-600 leading-relaxed mb-3">
-                In a developing story, the Trump administration has agreed to maintain the current DC police chief's position in exchange for compliance with a new federal immigration enforcement directive affecting the District.
-              </p>
-              <div className="flex items-center gap-3 text-xs text-gray-400">
-                <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> 13 hours ago</span>
-                <span>|</span>
-                <span>By Staff Reports</span>
-              </div>
-            </article>
+            {articles.length > 0 && (
+              <article className="bg-white border border-gray-200 p-6 mb-4">
+                <span className="text-xs font-bold text-red-600 uppercase tracking-wider">Top Story</span>
+                <h1 className="text-2xl md:text-3xl font-black text-gray-900 mt-2 mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+                  {articles[0].title}
+                </h1>
+                <p className="text-gray-600 leading-relaxed mb-3">
+                  {articles[0].description}
+                </p>
+                <div className="flex items-center gap-3 text-xs text-gray-400">
+                  <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(articles[0].publishedAt)}</span>
+                  <span>|</span>
+                  <span>By {articles[0].source.name}</span>
+                  <a
+                    href={articles[0].url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-blue-600 hover:underline ml-auto"
+                  >
+                    Read more <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+              </article>
+            )}
 
             {/* Article Grid */}
             <div className="grid md:grid-cols-2 gap-4">
-              {newsArticles.map((article, idx) => (
-                <article key={article.id} className="bg-white border border-gray-200 p-5 hover:shadow-md transition-shadow group cursor-pointer">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-1.5 py-0.5">
-                      {article.category}
-                    </span>
+              {loading ? (
+                // Loading skeletons
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="bg-white border border-gray-200 p-5 animate-pulse">
+                    <div className="h-4 w-20 bg-gray-200 rounded mb-3"></div>
+                    <div className="h-6 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-1"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-1 w-3/4"></div>
+                    <div className="h-3 w-1/2 bg-gray-200 rounded mt-4"></div>
                   </div>
-                  <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
-                    {article.headline}
-                  </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">
-                    {article.snippet}
-                  </p>
-                  <div className="flex items-center justify-between mt-3 text-xs text-gray-400">
-                    <span>{article.author}</span>
-                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {article.time}</span>
-                  </div>
-                  {/* cryptic 0 hidden in the 4th article */}
-                  {idx === 3 && <span className="text-[0px] select-none" aria-hidden="true">0</span>}
-                </article>
-              ))}
+                ))
+              ) : (
+                articles.slice(1, 5).map((article, idx) => (
+                  <article
+                    key={article.id}
+                    className="bg-white border border-gray-200 p-5 hover:shadow-md transition-shadow group cursor-pointer"
+                    onClick={() => window.open(article.url, '_blank')}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-1.5 py-0.5">
+                        {article.source.name}
+                      </span>
+                    </div>
+                    <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
+                      {article.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">
+                      {article.description}
+                    </p>
+                    <div className="flex items-center justify-between mt-3 text-xs text-gray-400">
+                      <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(article.publishedAt)}</span>
+                      <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  </article>
+                ))
+              )}
             </div>
+
+            {/* More Articles */}
+            {!loading && articles.length > 5 && (
+              <div className="mt-4 grid md:grid-cols-2 gap-4">
+                {articles.slice(5, 9).map((article) => (
+                  <article
+                    key={article.id}
+                    className="bg-white border border-gray-200 p-4 hover:shadow-md transition-shadow group cursor-pointer"
+                    onClick={() => window.open(article.url, '_blank')}
+                  >
+                    <h4 className="text-sm font-bold text-gray-900 mb-1 leading-snug group-hover:text-blue-900 transition-colors">
+                      {article.title}
+                    </h4>
+                    <p className="text-xs text-gray-500 line-clamp-2 mb-2">
+                      {article.description}
+                    </p>
+                    <span className="text-[10px] text-gray-400 flex items-center gap-1">
+                      <Clock className="h-2.5 w-2.5" /> {formatTime(article.publishedAt)}
+                    </span>
+                  </article>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -199,13 +263,13 @@ const DCNewsLanding = () => {
               <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-blue-900 pb-2 mb-3">Weather</h3>
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-4xl font-light text-gray-800">58°</span>
-                  <p className="text-xs text-gray-500 mt-1">Partly Cloudy</p>
+                  <span className="text-4xl font-light text-gray-800">{weather.temp}°</span>
+                  <p className="text-xs text-gray-500 mt-1">{weather.condition}</p>
                 </div>
                 <div className="text-right text-xs text-gray-500 space-y-1">
-                  <p>High: 64°F</p>
-                  <p>Low: 4<span className="text-gray-500">1</span>°F</p>
-                  <p>Wind: NW 8 mph</p>
+                  <p>High: {weather.high}°F</p>
+                  <p>Low: {weather.low}°F</p>
+                  <p>Wind: {weather.wind}</p>
                 </div>
               </div>
             </div>
@@ -225,14 +289,17 @@ const DCNewsLanding = () => {
               </ol>
             </div>
 
-            {/* Newsletter Signup */}
-            <div className="bg-blue-900 text-white p-4">
-              <h3 className="text-xs font-black uppercase tracking-wider mb-2">Daily Briefing</h3>
-              <p className="text-xs text-blue-200 mb-3">Get DC's top stories in your inbox every morning.</p>
-              <Input placeholder="Email address" className="h-8 text-sm bg-white/10 border-white/20 text-white placeholder:text-blue-300 rounded-sm mb-2" />
-              <Button className="w-full h-8 bg-white text-blue-900 hover:bg-gray-100 rounded-sm text-xs font-bold">
-                Subscribe
-              </Button>
+            {/* Contact CTA */}
+            <div className="bg-red-600 text-white p-4">
+              <h3 className="text-xs font-black uppercase tracking-wider mb-2">Get In Touch</h3>
+              <p className="text-xs text-red-100 mb-3">Have a story tip or want to connect?</p>
+              <a
+                href="mailto:ciao_chris@proton.me"
+                className="flex items-center justify-center gap-2 w-full h-10 bg-white text-red-700 hover:bg-gray-100 rounded-sm text-sm font-bold transition-colors"
+              >
+                <Mail className="h-4 w-4" />
+                Email Us
+              </a>
             </div>
 
             {/* Mobile Search */}

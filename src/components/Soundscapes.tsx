@@ -3,6 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Play, Square, Music2 } from 'lucide-react';
+import { storage, STORAGE_KEYS } from '@/hooks/useMythosStorage';
 
 // Simple ambient soundscapes using Web Audio API (no external assets)
 // Modes:
@@ -14,8 +15,12 @@ type SoundscapeMode = 'focus' | 'calm' | 'flow';
 
 export const Soundscapes: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [mode, setMode] = useState<SoundscapeMode>('focus');
-  const [volume, setVolume] = useState<number>(0.5);
+  const [mode, setMode] = useState<SoundscapeMode>(() =>
+    storage.get(STORAGE_KEYS.SOUNDSCAPE_MODE, 'focus')
+  );
+  const [volume, setVolume] = useState<number>(() =>
+    storage.get(STORAGE_KEYS.SOUNDSCAPE_VOLUME, 0.5)
+  );
 
   const audioCtxRef = useRef<AudioContext | null>(null);
   const gainRef = useRef<GainNode | null>(null);
@@ -148,6 +153,15 @@ export const Soundscapes: React.FC = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Persist mode and volume changes
+  useEffect(() => {
+    storage.set(STORAGE_KEYS.SOUNDSCAPE_MODE, mode);
+  }, [mode]);
+
+  useEffect(() => {
+    storage.set(STORAGE_KEYS.SOUNDSCAPE_VOLUME, volume);
+  }, [volume]);
 
   return (
     <Card className="bg-white/60 backdrop-blur-sm border-purple-200/30 shadow-xl p-4">

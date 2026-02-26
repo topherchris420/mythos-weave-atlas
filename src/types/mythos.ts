@@ -31,4 +31,40 @@ export interface SymbolicTool {
   icon: React.ComponentType<any>;
 }
 
-export type NavigationMode = 'overview' | 'ritual' | 'dream' | 'integration';
+export type NavigationMode = 'overview' | 'ritual' | 'dream' | 'integration' | 'journal';
+
+// Journal & Dream Log Types
+export type JournalEntryType = 'dream' | 'insight' | 'ritual' | 'integration' | 'general';
+
+export type JournalMood = 'clarity' | 'turbulence' | 'growth' | 'shadow' | 'peace' | 'conflict' | 'breakthrough';
+
+export interface JournalEntry {
+  id: string;
+  type: JournalEntryType;
+  title: string;
+  content: string;
+  mood?: JournalMood;
+  associatedLandforms?: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface SessionHistory {
+  id: string;
+  date: Date;
+  duration: number; // minutes
+  navigationModes: NavigationMode[];
+  landformsCreated: number;
+  ritualsCompleted: number;
+  journalEntries: number;
+  psychicStateBefore: PsychicState;
+  psychicStateAfter: PsychicState;
+}
+
+export interface RitualProgress {
+  earth: boolean;
+  fire: boolean;
+  water: boolean;
+  air: boolean;
+  lastCompleted?: Date;
+}

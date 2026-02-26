@@ -1,6 +1,6 @@
 
-import { Eye, Compass, Sun, Star, Shield, Mountain, Waves, TreePine, Flame, Gem, Moon } from 'lucide-react';
-import { SymbolicTool } from '@/types/mythos';
+import { Eye, Compass, Sun, Star, Shield, Mountain, Waves, TreePine, Flame, Gem, Moon, BookOpen } from 'lucide-react';
+import { SymbolicTool, NavigationMode } from '@/types/mythos';
 
 export const LANDFORM_ARCHETYPES = {
   mountain: { icon: Mountain, color: 'from-stone-400 to-slate-600', name: 'Mountain of Resistance' },
@@ -24,5 +24,6 @@ export const NAVIGATION_MODES = [
   { mode: 'overview', icon: Compass, name: 'Overview' },
   { mode: 'ritual', icon: Star, name: 'Ritual Space' },
   { mode: 'dream', icon: Moon, name: 'Dream Tuning' },
-  { mode: 'integration', icon: Gem, name: 'Integration' }
+  { mode: 'integration', icon: Gem, name: 'Integration' },
+  { mode: 'journal', icon: BookOpen, name: 'Journal' }
 ] as const;
