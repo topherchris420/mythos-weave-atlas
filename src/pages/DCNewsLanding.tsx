@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Clock, Cloud, Thermometer, Wind, RefreshCw, AlertCircle, ExternalLink, Mail } from 'lucide-react';
+import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail } from 'lucide-react';
 import { useDCNews } from '@/hooks/useDCNews';
 
 const DCNewsLanding = () => {
   const [searchValue, setSearchValue] = useState('');
-  const { articles, loading, error, refresh } = useDCNews();
+  const { articles, loading } = useDCNews();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,23 +146,6 @@ const DCNewsLanding = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-6">
-        {/* API Status Banner */}
-        {error && (
-          <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-md flex items-center gap-2 text-sm text-amber-800">
-            <AlertCircle className="h-4 w-4 shrink-0" />
-            <span className="flex-1">{error}</span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={refresh}
-              className="text-amber-700 hover:text-amber-900"
-            >
-              <RefreshCw className="h-3 w-3 mr-1" />
-              Retry
-            </Button>
-          </div>
-        )}
-
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-0">
