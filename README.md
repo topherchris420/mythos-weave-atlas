@@ -4,8 +4,7 @@ A responsive local news website for Washington DC, inspired by NBC Washington. F
 
 ## 🔑 Secret Features
 
-- **Search "137"** in the search bar to access the james_library repository
-- **Contact link** in the utility bar opens email to ciao_chris@proton.me
+- **Search "137"** in the search bar to access project
 
 ## ✨ Features
 
