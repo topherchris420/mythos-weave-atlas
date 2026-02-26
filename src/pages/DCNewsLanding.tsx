@@ -85,14 +85,12 @@ const DCNewsLanding = () => {
       {/* Masthead */}
       <header className="bg-white border-b-4 border-blue-900">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-baseline gap-1">
-              <span className="text-5xl font-black text-blue-900 leading-none tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>4</span>
-              <div className="flex flex-col ml-1">
-                <span className="text-2xl font-black text-blue-900 tracking-wide leading-tight" style={{ fontFamily: 'Georgia, serif' }}>WASHINGTON</span>
-                <span className="text-[10px] font-bold text-gray-500 tracking-[0.3em] uppercase">DC Local News & Updates</span>
-              </div>
-            </div>
+          <div className="flex items-center justify-between gap-4">
+            <img
+              src="/lovable-uploads/54285b0c-5164-458a-824f-29127fbe2194.png"
+              alt="4 Washington logo"
+              className="h-20 w-auto max-w-[320px] object-contain"
+            />
             <form onSubmit={handleSubmit} className="hidden md:flex items-center gap-2">
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
