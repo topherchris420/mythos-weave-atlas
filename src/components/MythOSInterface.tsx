@@ -168,7 +168,7 @@ export const MythOSInterface = () => {
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-800 mb-2 drop-shadow-lg">
             <span className="bg-gradient-to-r from-slate-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              MythOS
+              Washington4News
             </span>
           </h1>
           <p className="text-sm sm:text-lg md:text-xl text-slate-600 opacity-80 px-4 drop-shadow-sm">
