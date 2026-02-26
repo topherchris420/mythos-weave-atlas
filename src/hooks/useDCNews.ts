@@ -15,7 +15,7 @@ export interface NewsArticle {
   };
 }
 
-interface GNewsResponse {
+interface GNewsTopResponse {
   totalArticles: number;
   articles: GNewsArticle[];
 }
@@ -28,12 +28,13 @@ interface GNewsArticle {
   image: string | null;
   publishedAt: string;
   source: {
+    id?: string;
     name: string;
     url: string;
   };
 }
 
-const GNEWS_API_URL = 'https://gnews.io/api/v4/search';
+const GNEWS_API_URL = 'https://gnews.io/api/v4/top-headlines';
 const GNEWS_API_KEY = '8f9f2a8fa409478f8739d6bc33ef29f6';
 
 // Fallback DC headlines if API fails - looks authentic
@@ -110,21 +111,17 @@ export const useDCNews = () => {
     setError(null);
 
     try {
-      // Fetch Washington DC related news
+      // Use top-headlines endpoint with query parameter for API key
       const response = await fetch(
-        `${GNEWS_API_URL}?q=Washington%20DC%20OR%20DC%20politics%20OR%20Maryland%20Virginia&lang=en&country=us&max=10`,
-        {
-          headers: {
-            'Authorization': `Bearer ${GNEWS_API_KEY}`
-          }
-        }
+        `${GNEWS_API_URL}?category=general&lang=en&country=us&apikey=${GNEWS_API_KEY}`
       );
 
       if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.errors?.[0] || `API error: ${response.status}`);
       }
 
-      const data: GNewsResponse = await response.json();
+      const data: GNewsTopResponse = await response.json();
 
       // Transform GNews format to our format
       const transformedArticles: NewsArticle[] = data.articles.map((article, index) => ({
