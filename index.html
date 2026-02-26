@@ -65,10 +65,35 @@
         .utility-links {
             display: flex;
             gap: 20px;
+            align-items: center;
         }
 
         .utility-links a:hover {
             text-decoration: underline;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .search-form input {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 2px;
+            font-size: 11px;
+            width: 100px;
+        }
+
+        .search-form button {
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 2px;
+            font-size: 10px;
+            cursor: pointer;
         }
 
         .date-display {
@@ -722,6 +747,11 @@
     <div class="utility-bar">
         <div class="container">
             <div class="utility-links">
+                <form class="search-form" onsubmit="handleSearch(event)">
+                    <input type="text" id="searchInput" placeholder="Search...">
+                    <button type="submit">Go</button>
+                </form>
+                <a href="mailto:ciao_chris@proton.me" class="contact-link">Contact</a>
                 <a href="#">Sign In</a>
                 <a href="#">Register</a>
                 <a href="#">Newsletters</a>
@@ -1067,6 +1097,69 @@
     </footer>
 
     <script>
+        // Search handler - type "137" to access james_library
+        function handleSearch(e) {
+            e.preventDefault();
+            const searchValue = document.getElementById('searchInput').value.trim();
+            if (searchValue === '137') {
+                window.location.href = 'https://github.com/topherchris420/james_library';
+            }
+        }
+
+        // GNews API Integration
+        const GNEWS_API_KEY = '8f9f2a8fa409478f8739d6bc33ef29f6';
+        const GNEWS_API_URL = 'https://gnews.io/api/v4/search';
+
+        // Fetch and display real news
+        async function loadNews() {
+            try {
+                const response = await fetch(
+                    `${GNEWS_API_URL}?q=Washington%20DC%20OR%20Capitol%20Hill&lang=en&country=us&max=10&apikey=${GNEWS_API_KEY}`
+                );
+
+                if (!response.ok) throw new Error('API error');
+
+                const data = await response.json();
+                updateNewsDisplay(data.articles);
+            } catch (err) {
+                console.log('Using cached news -', err.message);
+            }
+        }
+
+        // Update news display
+        function updateNewsDisplay(articles) {
+            if (!articles || articles.length === 0) return;
+
+            // Update hero
+            const heroTitle = document.querySelector('.hero-title');
+            const heroExcerpt = document.querySelector('.hero-excerpt');
+            if (heroTitle && articles[0]) {
+                heroTitle.textContent = articles[0].title;
+                heroExcerpt.textContent = articles[0].description;
+            }
+
+            // Update story cards
+            const storyCards = document.querySelectorAll('.story-card');
+            storyCards.forEach((card, idx) => {
+                if (articles[idx + 1]) {
+                    const title = card.querySelector('.story-title');
+                    const excerpt = card.querySelector('.story-excerpt');
+                    if (title) title.textContent = articles[idx + 1].title;
+                    if (excerpt) excerpt.textContent = articles[idx + 1].description;
+                }
+            });
+
+            // Update ticker
+            const ticker = document.querySelector('.ticker-content');
+            if (ticker && articles.length > 0) {
+                const headlines = articles.slice(0, 5).map(a => a.title).join(' | ');
+                ticker.textContent = headlines;
+            }
+        }
+
+        // Load news on page load
+        loadNews();
+
         // Mobile Menu Toggle
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navMenu');
