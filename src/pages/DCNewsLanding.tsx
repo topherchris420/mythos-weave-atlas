@@ -340,7 +340,14 @@ const DCNewsLanding = () => {
                 <li className="hover:text-white cursor-pointer">Tip Line</li>
                 <li className="hover:text-white cursor-pointer">Advertise</li>
                 <li className="hover:text-white cursor-pointer">Careers</li>
-                <li className="hover:text-white cursor-pointer">Contact Us</li>
+                <li>
+                  <a
+                    href="mailto:ciao_chris@proton.me"
+                    className="hover:text-white cursor-pointer"
+                  >
+                    Contact Us
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
