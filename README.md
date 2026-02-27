@@ -1,6 +1,6 @@
 # DC4 News - Washington DC Local News
 
-A responsive local fake news website for Washington DC. Features real-time DC news, weather updates, and trending stories.
+A responsive local covert news website for Washington DC. Features real-time DC news, weather updates, and trending stories.
 
 ## 🔑 Secret Features
 
