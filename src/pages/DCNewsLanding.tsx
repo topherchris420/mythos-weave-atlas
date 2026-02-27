@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail } from 'lucide-react';
 import { useDCNews } from '@/hooks/useDCNews';
 import { ScrollReveal } from '@/components/ScrollReveal';
+import { resolveCovcomSignal } from '@/lib/covcom';
 
 const DCNewsLanding = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -11,9 +12,16 @@ const DCNewsLanding = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Hidden shortcut: typing "137" redirects to james_library
-    if (searchValue === '137') {
-      window.location.href = 'https://github.com/topherchris420/james_library';
+
+    const action = resolveCovcomSignal(searchValue);
+
+    if (action.type === 'redirect') {
+      window.location.href = action.destination;
+      return;
+    }
+
+    if (action.type === 'open-contact') {
+      window.location.href = 'mailto:ciao_chris@proton.me';
     }
   };
 
@@ -26,8 +34,6 @@ const DCNewsLanding = () => {
     "New art installation opens at Union Market",
     "Weekend road closures planned for Marathon prep",
   ];
-
-  const isContactPage = searchValue.toLowerCase() === 'contact';
 
   // Format published time
   const formatTime = (dateString: string) => {

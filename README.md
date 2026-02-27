@@ -46,6 +46,20 @@ Then visit `http://localhost:8080`
 └── package.json        # Build configuration
 ```
 
+
+## 🕵️ COVCOM Architecture (Covert Communication)
+
+The hidden command flow now uses a small COVCOM layer (`src/lib/covcom.ts`) so covert triggers are centralized, typed, and easy to extend.
+
+- **Signal normalization**: incoming input is normalized before matching.
+- **Channel registry**: each covert channel defines aliases + a resolver.
+- **Action protocol**: channels return typed actions (`redirect`, `open-contact`, or `none`) consumed by UI.
+- **UI decoupling**: `DCNewsLanding` calls `resolveCovcomSignal(...)` instead of embedding ad-hoc checks.
+
+Current channels:
+- `library-access` via `137` or `library`
+- `contact-channel` via `contact` or `signal`
+
 ## 🔧 Building
 
 ```bash
