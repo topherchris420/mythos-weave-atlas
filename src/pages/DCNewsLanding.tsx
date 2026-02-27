@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail } from 'lucide-react';
 import { useDCNews } from '@/hooks/useDCNews';
+import { ScrollReveal } from '@/components/ScrollReveal';
 
 const DCNewsLanding = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -149,28 +150,30 @@ const DCNewsLanding = () => {
           <div className="lg:col-span-2 space-y-0">
             {/* Lead Story */}
             {articles.length > 0 && (
-              <article className="bg-white border border-gray-200 p-6 mb-4">
-                <span className="text-xs font-bold text-red-600 uppercase tracking-wider">Top Story</span>
-                <h1 className="text-2xl md:text-3xl font-black text-gray-900 mt-2 mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
-                  {articles[0].title}
-                </h1>
-                <p className="text-gray-600 leading-relaxed mb-3">
-                  {articles[0].description}
-                </p>
-                <div className="flex items-center gap-3 text-xs text-gray-400">
-                  <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(articles[0].publishedAt)}</span>
-                  <span>|</span>
-                  <span>By {articles[0].source.name}</span>
-                  <a
-                    href={articles[0].url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-blue-600 hover:underline ml-auto"
-                  >
-                    Read more <ExternalLink className="h-3 w-3" />
-                  </a>
-                </div>
-              </article>
+              <ScrollReveal>
+                <article className="bg-white border border-gray-200 p-6 mb-4">
+                  <span className="text-xs font-bold text-red-600 uppercase tracking-wider">Top Story</span>
+                  <h1 className="text-2xl md:text-3xl font-black text-gray-900 mt-2 mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+                    {articles[0].title}
+                  </h1>
+                  <p className="text-gray-600 leading-relaxed mb-3">
+                    {articles[0].description}
+                  </p>
+                  <div className="flex items-center gap-3 text-xs text-gray-400">
+                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(articles[0].publishedAt)}</span>
+                    <span>|</span>
+                    <span>By {articles[0].source.name}</span>
+                    <a
+                      href={articles[0].url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 text-blue-600 hover:underline ml-auto"
+                    >
+                      Read more <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                </article>
+              </ScrollReveal>
             )}
 
             {/* Article Grid */}
@@ -188,27 +191,28 @@ const DCNewsLanding = () => {
                 ))
               ) : (
                 articles.slice(1, 5).map((article, idx) => (
-                  <article
-                    key={article.id}
-                    className="bg-white border border-gray-200 p-5 hover:shadow-md transition-shadow group cursor-pointer"
-                    onClick={() => window.open(article.url, '_blank')}
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-1.5 py-0.5">
-                        {article.source.name}
-                      </span>
-                    </div>
-                    <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
-                      {article.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">
-                      {article.description}
-                    </p>
-                    <div className="flex items-center justify-between mt-3 text-xs text-gray-400">
-                      <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(article.publishedAt)}</span>
-                      <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                  </article>
+                  <ScrollReveal key={article.id} delay={idx * 100}>
+                    <article
+                      className="bg-white border border-gray-200 p-5 hover:shadow-md transition-shadow group cursor-pointer h-full"
+                      onClick={() => window.open(article.url, '_blank')}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-1.5 py-0.5">
+                          {article.source.name}
+                        </span>
+                      </div>
+                      <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
+                        {article.title}
+                      </h3>
+                      <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">
+                        {article.description}
+                      </p>
+                      <div className="flex items-center justify-between mt-3 text-xs text-gray-400">
+                        <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(article.publishedAt)}</span>
+                        <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                    </article>
+                  </ScrollReveal>
                 ))
               )}
             </div>
@@ -216,22 +220,23 @@ const DCNewsLanding = () => {
             {/* More Articles */}
             {!loading && articles.length > 5 && (
               <div className="mt-4 grid md:grid-cols-2 gap-4">
-                {articles.slice(5, 9).map((article) => (
-                  <article
-                    key={article.id}
-                    className="bg-white border border-gray-200 p-4 hover:shadow-md transition-shadow group cursor-pointer"
-                    onClick={() => window.open(article.url, '_blank')}
-                  >
-                    <h4 className="text-sm font-bold text-gray-900 mb-1 leading-snug group-hover:text-blue-900 transition-colors">
-                      {article.title}
-                    </h4>
-                    <p className="text-xs text-gray-500 line-clamp-2 mb-2">
-                      {article.description}
-                    </p>
-                    <span className="text-[10px] text-gray-400 flex items-center gap-1">
-                      <Clock className="h-2.5 w-2.5" /> {formatTime(article.publishedAt)}
-                    </span>
-                  </article>
+                {articles.slice(5, 9).map((article, idx) => (
+                  <ScrollReveal key={article.id} delay={idx * 80}>
+                    <article
+                      className="bg-white border border-gray-200 p-4 hover:shadow-md transition-shadow group cursor-pointer"
+                      onClick={() => window.open(article.url, '_blank')}
+                    >
+                      <h4 className="text-sm font-bold text-gray-900 mb-1 leading-snug group-hover:text-blue-900 transition-colors">
+                        {article.title}
+                      </h4>
+                      <p className="text-xs text-gray-500 line-clamp-2 mb-2">
+                        {article.description}
+                      </p>
+                      <span className="text-[10px] text-gray-400 flex items-center gap-1">
+                        <Clock className="h-2.5 w-2.5" /> {formatTime(article.publishedAt)}
+                      </span>
+                    </article>
+                  </ScrollReveal>
                 ))}
               </div>
             )}
@@ -239,49 +244,54 @@ const DCNewsLanding = () => {
 
           {/* Sidebar */}
           <aside className="space-y-4">
-            {/* Weather Widget */}
-            <div className="bg-white border border-gray-200 p-4">
-              <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-blue-900 pb-2 mb-3">Weather</h3>
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-4xl font-light text-gray-800">{weather.temp}°</span>
-                  <p className="text-xs text-gray-500 mt-1">{weather.condition}</p>
-                </div>
-                <div className="text-right text-xs text-gray-500 space-y-1">
-                  <p>High: {weather.high}°F</p>
-                  <p>Low: {weather.low}°F</p>
-                  <p>Wind: {weather.wind}</p>
+            <ScrollReveal>
+              <div className="bg-white border border-gray-200 p-4">
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-blue-900 pb-2 mb-3">Weather</h3>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-4xl font-light text-gray-800">{weather.temp}°</span>
+                    <p className="text-xs text-gray-500 mt-1">{weather.condition}</p>
+                  </div>
+                  <div className="text-right text-xs text-gray-500 space-y-1">
+                    <p>High: {weather.high}°F</p>
+                    <p>Low: {weather.low}°F</p>
+                    <p>Wind: {weather.wind}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Most Read */}
-            <div className="bg-white border border-gray-200 p-4">
-              <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-red-600 pb-2 mb-3">Most Read</h3>
-              <ol className="space-y-3">
-                {sidebarStories.map((story, i) => (
-                  <li key={i} className="flex items-start gap-3 group cursor-pointer">
-                    <span className="text-2xl font-black text-gray-200 leading-none">{i + 1}</span>
-                    <p className="text-sm text-gray-700 leading-snug group-hover:text-blue-900 transition-colors font-medium pt-0.5">
-                      {story}
-                    </p>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            <ScrollReveal delay={100}>
+              <div className="bg-white border border-gray-200 p-4">
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-red-600 pb-2 mb-3">Most Read</h3>
+                <ol className="space-y-3">
+                  {sidebarStories.map((story, i) => (
+                    <li key={i} className="flex items-start gap-3 group cursor-pointer">
+                      <span className="text-2xl font-black text-gray-200 leading-none">{i + 1}</span>
+                      <p className="text-sm text-gray-700 leading-snug group-hover:text-blue-900 transition-colors font-medium pt-0.5">
+                        {story}
+                      </p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </ScrollReveal>
 
             {/* Contact CTA */}
-            <div className="bg-red-600 text-white p-4">
-              <h3 className="text-xs font-black uppercase tracking-wider mb-2">Get In Touch</h3>
-              <p className="text-xs text-red-100 mb-3">Have a story tip or want to connect?</p>
-              <a
-                href="mailto:ciao_chris@proton.me"
-                className="flex items-center justify-center gap-2 w-full h-10 bg-white text-red-700 hover:bg-gray-100 rounded-sm text-sm font-bold transition-colors"
-              >
-                <Mail className="h-4 w-4" />
-                Email Us
-              </a>
-            </div>
+            <ScrollReveal delay={200}>
+              <div className="bg-red-600 text-white p-4">
+                <h3 className="text-xs font-black uppercase tracking-wider mb-2">Get In Touch</h3>
+                <p className="text-xs text-red-100 mb-3">Have a story tip or want to connect?</p>
+                <a
+                  href="mailto:ciao_chris@proton.me"
+                  className="flex items-center justify-center gap-2 w-full h-10 bg-white text-red-700 hover:bg-gray-100 rounded-sm text-sm font-bold transition-colors"
+                >
+                  <Mail className="h-4 w-4" />
+                  Email Us
+                </a>
+              </div>
+            </ScrollReveal>
 
             {/* Mobile Search */}
             <div className="md:hidden bg-white border border-gray-200 p-4">
