@@ -16,7 +16,6 @@ import { IntegrationChamber } from './IntegrationChamber';
 import { EmotionalGuidance } from './EmotionalGuidance';
 import { Soundscapes } from './Soundscapes';
 import { Journal } from './Journal';
-import { Journal } from './Journal';
 
 export const MythOSInterface = () => {
   const { psychicState, setPsychicState } = usePsychicState();

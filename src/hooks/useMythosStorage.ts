@@ -14,12 +14,16 @@ const STORAGE_KEYS = {
 } as const;
 
 export type StorageKey = keyof typeof STORAGE_KEYS;
+type StorageValue = typeof STORAGE_KEYS[StorageKey];
 
-// Generic get/set with error handling
+// Generic get/set with error handling - accepts either key name or resolved value
 export const storage = {
-  get: <T>(key: StorageKey, defaultValue: T): T => {
+  get: <T>(key: StorageKey | StorageValue, defaultValue: T): T => {
     try {
-      const item = localStorage.getItem(STORAGE_KEYS[key]);
+      const resolvedKey = key in STORAGE_KEYS
+        ? STORAGE_KEYS[key as StorageKey]
+        : key as string;
+      const item = localStorage.getItem(resolvedKey);
       return item ? JSON.parse(item) : defaultValue;
     } catch (error) {
       console.warn(`Storage get error for ${key}:`, error);
@@ -27,17 +31,23 @@ export const storage = {
     }
   },
 
-  set: <T>(key: StorageKey, value: T): void => {
+  set: <T>(key: StorageKey | StorageValue, value: T): void => {
     try {
-      localStorage.setItem(STORAGE_KEYS[key], JSON.stringify(value));
+      const resolvedKey = key in STORAGE_KEYS
+        ? STORAGE_KEYS[key as StorageKey]
+        : key as string;
+      localStorage.setItem(resolvedKey, JSON.stringify(value));
     } catch (error) {
       console.warn(`Storage set error for ${key}:`, error);
     }
   },
 
-  remove: (key: StorageKey): void => {
+  remove: (key: StorageKey | StorageValue): void => {
     try {
-      localStorage.removeItem(STORAGE_KEYS[key]);
+      const resolvedKey = key in STORAGE_KEYS
+        ? STORAGE_KEYS[key as StorageKey]
+        : key as string;
+      localStorage.removeItem(resolvedKey);
     } catch (error) {
       console.warn(`Storage remove error for ${key}:`, error);
     }
