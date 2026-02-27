@@ -92,7 +92,7 @@ const DCNewsLanding = () => {
               alt="4 Washington logo"
               className="h-20 w-auto max-w-[320px] object-contain"
             />
-            <form onSubmit={handleSubmit} className="hidden md:flex items-center gap-2">
+            <form onSubmit={handleSubmit} className="flex items-center gap-2">
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
                 <Input
@@ -100,7 +100,7 @@ const DCNewsLanding = () => {
                   placeholder="Search stories..."
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
-                  className="pl-8 h-8 w-48 text-sm border-gray-300 rounded-sm bg-gray-50"
+                  className="pl-8 h-8 w-32 md:w-48 text-sm border-gray-300 rounded-sm bg-gray-50"
                 />
               </div>
               <Button type="submit" size="sm" className="h-8 bg-blue-900 hover:bg-blue-800 rounded-sm text-xs px-3">
@@ -293,24 +293,6 @@ const DCNewsLanding = () => {
               </div>
             </ScrollReveal>
 
-            {/* Mobile Search */}
-            <div className="md:hidden bg-white border border-gray-200 p-4">
-              <form onSubmit={handleSubmit} className="space-y-2">
-                <div className="relative">
-                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
-                  <Input
-                    type="password"
-                    placeholder="Search stories..."
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    className="pl-8 h-9 text-sm border-gray-300 rounded-sm"
-                  />
-                </div>
-                <Button type="submit" className="w-full h-9 bg-blue-900 hover:bg-blue-800 rounded-sm text-sm">
-                  Search
-                </Button>
-              </form>
-            </div>
           </aside>
         </div>
       </main>
