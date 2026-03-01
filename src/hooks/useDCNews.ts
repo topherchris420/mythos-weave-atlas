@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 export interface NewsArticle {
   id: string;
+  category: string;
   title: string;
   description: string;
   content: string;
@@ -20,6 +21,7 @@ export interface NewsArticle {
 const DC_NEWS_ARTICLES: NewsArticle[] = [
   {
     id: '1',
+    category: 'Traffic',
     title: 'Metro Board Approves FY2027 Budget Amid Ridership Recovery',
     description: 'WMATA officials unveiled a $2.1 billion operating budget focused on increasing service frequency and improving reliability across all rail and bus lines.',
     content: '',
@@ -30,6 +32,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: '2',
+    category: 'Weather',
     title: 'National Cherry Blossom Festival Announces Peak Bloom Window',
     description: 'The National Park Service expects peak bloom around April 8-15, with enhanced pedestrian safety measures planned around the Tidal Basin.',
     content: '',
@@ -40,6 +43,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: '3',
+    category: 'Politics',
     title: 'DC Council Passes Affordable Housing Legislation',
     description: 'New bill mandates 30% of new residential developments in high-density zones include affordable units, effective January 2027.',
     content: '',
@@ -50,6 +54,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: '4',
+    category: 'Entertainment',
     title: 'Smithsonian Announces Major Renovation of National Air and Space Museum',
     description: 'The museum will close for 18 months starting July for comprehensive infrastructure upgrades and exhibit modernization.',
     content: '',
@@ -60,6 +65,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: '5',
+    category: 'Local',
     title: 'Georgetown Waterfront Park Expansion Breaks Ground',
     description: 'Construction begins on 2-acre extension featuring new kayak launch, restaurant pavilion, and enhanced flood mitigation infrastructure.',
     content: '',
@@ -70,6 +76,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: '6',
+    category: 'Crime & Safety',
     title: 'Capitol Police Enhance Security Perimeter Protocols',
     description: 'USCP announces adjusted vehicle inspection procedures for vehicles entering the Capitol complex, effective next month.',
     content: '',
@@ -80,6 +87,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: '7',
+    category: 'Sports',
     title: 'DCA Ronald Reagan National Airport Reports Record Passenger Growth',
     description: 'The airport saw 25 million passengers last year, the highest since 2019, with new routes announced to Denver and Seattle.',
     content: '',
@@ -90,6 +98,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: '8',
+    category: 'Entertainment',
     title: 'National Zoo Panda Cam Returns After Maintenance',
     description: 'The popular panda cam is back online with three new cubs expected to make public debut next month.',
     content: '',
