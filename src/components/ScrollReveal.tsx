@@ -13,10 +13,26 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePreference = () => setReduceMotion(mediaQuery.matches);
+
+    updatePreference();
+    mediaQuery.addEventListener('change', updatePreference);
+
+    return () => mediaQuery.removeEventListener('change', updatePreference);
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    if (reduceMotion) {
+      setIsVisible(true);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -30,7 +46,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [reduceMotion]);
 
   return (
     <div
@@ -40,7 +56,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
           ? 'opacity-100 translate-y-0'
           : 'opacity-0 translate-y-4'
       } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay: reduceMotion ? '0ms' : `${delay}ms` }}
     >
       {children}
     </div>
