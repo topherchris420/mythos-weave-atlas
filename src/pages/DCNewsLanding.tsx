@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail } from 'lucide-react';
 import { FeaturedStoryCard } from '@/components/FeaturedStoryCard';
 import { useDCNews } from '@/hooks/useDCNews';
@@ -10,6 +11,8 @@ import { resolveCovcomSignal } from '@/lib/covcom';
 const DCNewsLanding = () => {
   const [searchValue, setSearchValue] = useState('');
   const { articles, loading } = useDCNews();
+  const navLinks = ['Local', 'Politics', 'Crime & Safety', 'Weather', 'Traffic', 'Sports', 'Entertainment'] as const;
+  const [activeCategory, setActiveCategory] = useState<(typeof navLinks)[number]>(navLinks[0]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +29,11 @@ const DCNewsLanding = () => {
     }
   };
 
-  const navLinks = ['Local', 'Politics', 'Crime & Safety', 'Weather', 'Traffic', 'Sports', 'Entertainment', 'Contact'];
+  const filteredArticles = articles.filter((article) => article.category === activeCategory);
+  const breakingArticle = filteredArticles[0] ?? articles[0];
+  const leadArticle = filteredArticles[0];
+  const gridArticles = filteredArticles.slice(1, 5);
+  const moreArticles = filteredArticles.slice(5, 9);
 
   const sidebarStories = [
     "Council approves new bike lane network for NW",
@@ -120,11 +127,21 @@ const DCNewsLanding = () => {
 
       {/* Navigation */}
       <nav className="bg-blue-900 text-white sticky top-0 z-50 shadow-md">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-0 overflow-x-auto scrollbar-hide">
+        <div className="max-w-7xl mx-auto px-4 py-2 md:py-1.5">
+          <div className="hidden md:flex items-center justify-between gap-4">
+            <div className="inline-flex items-center gap-1 rounded-full border border-blue-700 bg-blue-950/70 p-1">
               {navLinks.map((link) => (
-                <button key={link} className="px-4 py-2.5 text-sm font-medium hover:bg-blue-800 transition-colors whitespace-nowrap border-b-2 border-transparent hover:border-white/50">
+                <button
+                  key={link}
+                  type="button"
+                  onClick={() => setActiveCategory(link)}
+                  aria-pressed={activeCategory === link}
+                  className={`rounded-full px-4 py-2 text-sm font-semibold transition-all whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-900 ${
+                    activeCategory === link
+                      ? 'bg-white text-blue-900 shadow-sm'
+                      : 'text-blue-100 hover:bg-blue-800 hover:text-white'
+                  }`}
+                >
                   {link}
                 </button>
               ))}
@@ -132,6 +149,28 @@ const DCNewsLanding = () => {
             <a
               href="mailto:ciao_chris@proton.me"
               className="px-4 py-2.5 text-sm font-medium bg-red-600 hover:bg-red-700 transition-colors flex items-center gap-2 whitespace-nowrap"
+            >
+              <Mail className="h-4 w-4" />
+              Contact
+            </a>
+          </div>
+
+          <div className="md:hidden space-y-2">
+            <div>
+              <Select value={activeCategory} onValueChange={(value) => setActiveCategory(value as (typeof navLinks)[number])}>
+                <SelectTrigger className="h-10 border-blue-700 bg-blue-950 text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-900">
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {navLinks.map((link) => (
+                    <SelectItem key={link} value={link}>{link}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <a
+              href="mailto:ciao_chris@proton.me"
+              className="h-10 px-4 text-sm font-semibold bg-red-600 hover:bg-red-700 transition-colors flex items-center justify-center gap-2 rounded-md"
             >
               <Mail className="h-4 w-4" />
               Contact
@@ -145,7 +184,7 @@ const DCNewsLanding = () => {
         <div className="max-w-7xl mx-auto px-4 py-1.5 flex items-center gap-3 text-sm">
           <span className="bg-white text-red-700 px-2 py-0.5 rounded-sm text-xs font-black tracking-wide shrink-0">BREAKING</span>
           <p className="truncate font-medium">
-            {loading ? 'Loading latest news...' : articles[0]?.title || 'Refresh for latest updates'}
+            {loading ? 'Loading latest news...' : breakingArticle?.title || 'Refresh for latest updates'}
           </p>
         </div>
       </div>
@@ -178,7 +217,7 @@ const DCNewsLanding = () => {
                   </div>
                 ))
               ) : (
-                articles.slice(1, 5).map((article, idx) => (
+                gridArticles.map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 100}>
                     <article
                       className="bg-white border border-gray-200 p-5 hover:shadow-md transition-shadow group cursor-pointer h-full"
@@ -206,9 +245,9 @@ const DCNewsLanding = () => {
             </div>
 
             {/* More Articles */}
-            {!loading && articles.length > 5 && (
+            {!loading && moreArticles.length > 0 && (
               <div className="mt-4 grid md:grid-cols-2 gap-4">
-                {articles.slice(5, 9).map((article, idx) => (
+                {moreArticles.map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 80}>
                     <article
                       className="bg-white border border-gray-200 p-4 hover:shadow-md transition-shadow group cursor-pointer"
