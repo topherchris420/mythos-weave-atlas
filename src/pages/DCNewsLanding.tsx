@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail } from 'lucide-react';
+import { FeaturedStoryCard } from '@/components/FeaturedStoryCard';
 import { useDCNews } from '@/hooks/useDCNews';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { resolveCovcomSignal } from '@/lib/covcom';
@@ -196,30 +197,9 @@ const DCNewsLanding = () => {
             {/* Lead Story */}
             {articles.length > 0 && (
               <ScrollReveal>
-                <article className="bg-white border border-gray-200 p-6 mb-4">
-                  <span className="text-xs font-bold text-red-600 uppercase tracking-wider">{activeCategory} Top Story</span>
-                  <h1 className="text-2xl md:text-3xl font-black text-gray-900 mt-2 mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
-                    {leadArticle?.title || `No ${activeCategory} stories yet`}
-                  </h1>
-                  <p className="text-gray-600 leading-relaxed mb-3">
-                    {leadArticle?.description || 'Check back soon for the latest updates in this category.'}
-                  </p>
-                  {leadArticle && (
-                    <div className="flex items-center gap-3 text-xs text-gray-400">
-                      <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(leadArticle.publishedAt)}</span>
-                      <span>|</span>
-                      <span>By {leadArticle.source.name}</span>
-                      <a
-                        href={leadArticle.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-blue-600 hover:underline ml-auto"
-                      >
-                        Read more <ExternalLink className="h-3 w-3" />
-                      </a>
-                    </div>
-                  )}
-                </article>
+                <div className="mb-4">
+                  <FeaturedStoryCard article={articles[0]} formatTime={formatTime} />
+                </div>
               </ScrollReveal>
             )}
 
