@@ -26,7 +26,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
     description: 'WMATA officials unveiled a $2.1 billion operating budget focused on increasing service frequency and improving reliability across all rail and bus lines.',
     content: '',
     url: 'https://www.wmata.com',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?w=600&h=400&fit=crop',
     publishedAt: new Date().toISOString(),
     source: { name: 'Washington Metro Report', url: 'https://www.wmata.com' }
   },
@@ -37,7 +37,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
     description: 'The National Park Service expects peak bloom around April 8-15, with enhanced pedestrian safety measures planned around the Tidal Basin.',
     content: '',
     url: 'https://www.nps.gov',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600&h=400&fit=crop',
     publishedAt: new Date(Date.now() - 3600000).toISOString(),
     source: { name: 'NPS News', url: 'https://www.nps.gov' }
   },
@@ -48,7 +48,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
     description: 'New bill mandates 30% of new residential developments in high-density zones include affordable units, effective January 2027.',
     content: '',
     url: 'https://dc.gov',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=600&h=400&fit=crop',
     publishedAt: new Date(Date.now() - 7200000).toISOString(),
     source: { name: 'DC Wire', url: 'https://dc.gov' }
   },
@@ -59,7 +59,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
     description: 'The museum will close for 18 months starting July for comprehensive infrastructure upgrades and exhibit modernization.',
     content: '',
     url: 'https://www.si.edu',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1574958269340-fa927503f3dd?w=600&h=400&fit=crop',
     publishedAt: new Date(Date.now() - 10800000).toISOString(),
     source: { name: 'Smithsonian Insider', url: 'https://www.si.edu' }
   },
@@ -70,7 +70,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
     description: 'Construction begins on 2-acre extension featuring new kayak launch, restaurant pavilion, and enhanced flood mitigation infrastructure.',
     content: '',
     url: 'https://dc.gov',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=600&h=400&fit=crop',
     publishedAt: new Date(Date.now() - 14400000).toISOString(),
     source: { name: 'DC Business Journal', url: 'https://dc.gov' }
   },
@@ -81,7 +81,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
     description: 'USCP announces adjusted vehicle inspection procedures for vehicles entering the Capitol complex, effective next month.',
     content: '',
     url: 'https://www.uscp.gov',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1585399058947-5f1b59b6ed1e?w=600&h=400&fit=crop',
     publishedAt: new Date(Date.now() - 18000000).toISOString(),
     source: { name: 'Capitol Police News', url: 'https://www.uscp.gov' }
   },
@@ -92,7 +92,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
     description: 'The airport saw 25 million passengers last year, the highest since 2019, with new routes announced to Denver and Seattle.',
     content: '',
     url: 'https://www.flyreagan.com',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&h=400&fit=crop',
     publishedAt: new Date(Date.now() - 21600000).toISOString(),
     source: { name: 'DCA Aviation News', url: 'https://www.flyreagan.com' }
   },
@@ -103,7 +103,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
     description: 'The popular panda cam is back online with three new cubs expected to make public debut next month.',
     content: '',
     url: 'https://nationalzoo.si.edu',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=600&h=400&fit=crop',
     publishedAt: new Date(Date.now() - 25200000).toISOString(),
     source: { name: 'NZP News', url: 'https://nationalzoo.si.edu' }
   }
