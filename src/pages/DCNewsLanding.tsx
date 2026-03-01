@@ -127,6 +127,13 @@ const DCNewsLanding = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-white focus:text-blue-900 focus:px-4 focus:py-2 focus:rounded-sm focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
+      >
+        Skip to main content
+      </a>
+
       {/* Top Bar */}
       <div className="bg-blue-950 text-white">
         <div className="max-w-7xl mx-auto px-4 py-1.5 flex items-center justify-between text-xs">
@@ -163,7 +170,7 @@ const DCNewsLanding = () => {
                   className="pl-8 h-8 w-32 md:w-48 text-sm border-gray-300 rounded-sm bg-gray-50"
                 />
               </div>
-              <Button type="submit" size="sm" className="h-8 bg-blue-900 hover:bg-blue-800 rounded-sm text-xs px-3">
+              <Button type="submit" size="sm" className="h-8 bg-blue-900 hover:bg-blue-800 rounded-sm text-xs px-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-700">
                 Go
               </Button>
             </form>
@@ -194,7 +201,7 @@ const DCNewsLanding = () => {
             </div>
             <a
               href="mailto:ciao_chris@proton.me"
-              className="px-4 py-2.5 text-sm font-medium bg-red-600 hover:bg-red-700 transition-colors flex items-center gap-2 whitespace-nowrap"
+              className="px-4 py-2.5 text-sm font-medium bg-red-600 hover:bg-red-700 transition-colors flex items-center gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
             >
               <Mail className="h-4 w-4" />
               Contact
@@ -236,7 +243,7 @@ const DCNewsLanding = () => {
       </div>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 py-6" tabIndex={-1}>
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-0">
@@ -288,14 +295,14 @@ const DCNewsLanding = () => {
                       <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
                         {article.title}
                       </h3>
-                      <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">
+                      <p className="text-sm text-gray-700 leading-relaxed line-clamp-3">
                         {article.description}
                       </p>
-                      <div className="flex items-center justify-between mt-3 text-xs text-gray-400">
+                      <div className="flex items-center justify-between mt-3 text-xs text-gray-600">
                         <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(article.publishedAt)}</span>
-                        <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <ExternalLink className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
                       </div>
-                    </article>
+                    </a>
                   </ScrollReveal>
                 ))
               )}
@@ -313,13 +320,13 @@ const DCNewsLanding = () => {
                       <h4 className="text-sm font-bold text-gray-900 mb-1 leading-snug group-hover:text-blue-900 transition-colors">
                         {article.title}
                       </h4>
-                      <p className="text-xs text-gray-500 line-clamp-2 mb-2">
+                      <p className="text-xs text-gray-700 line-clamp-2 mb-2">
                         {article.description}
                       </p>
-                      <span className="text-[10px] text-gray-400 flex items-center gap-1">
+                      <span className="text-[10px] text-gray-600 flex items-center gap-1">
                         <Clock className="h-2.5 w-2.5" /> {formatTime(article.publishedAt)}
                       </span>
-                    </article>
+                    </a>
                   </ScrollReveal>
                 ))}
               </div>
@@ -413,9 +420,9 @@ const DCNewsLanding = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="text-4xl font-light text-gray-800">{weather.temp}°</span>
-                    <p className="text-xs text-gray-500 mt-1">{weather.condition}</p>
+                    <p className="text-xs text-gray-700 mt-1">{weather.condition}</p>
                   </div>
-                  <div className="text-right text-xs text-gray-500 space-y-1">
+                  <div className="text-right text-xs text-gray-700 space-y-1">
                     <p>High: {weather.high}°F</p>
                     <p>Low: {weather.low}°F</p>
                     <p>Wind: {weather.wind}</p>
@@ -448,7 +455,7 @@ const DCNewsLanding = () => {
                 <p className="text-xs text-red-100 mb-3">Have a story tip or want to connect?</p>
                 <a
                   href="mailto:ciao_chris@proton.me"
-                  className="flex items-center justify-center gap-2 w-full h-10 bg-white text-red-700 hover:bg-gray-100 rounded-sm text-sm font-bold transition-colors"
+                  className="flex items-center justify-center gap-2 w-full h-10 bg-white text-red-700 hover:bg-gray-100 rounded-sm text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white"
                 >
                   <Mail className="h-4 w-4" />
                   Email Us
@@ -467,40 +474,40 @@ const DCNewsLanding = () => {
             <div>
               <h4 className="text-xs font-black text-white uppercase tracking-wider mb-3">Neighborhoods</h4>
               <ul className="space-y-1.5 text-xs">
-                <li className="hover:text-white cursor-pointer">Capitol Hill</li>
-                <li className="hover:text-white cursor-pointer">Georgetown</li>
-                <li className="hover:text-white cursor-pointer">Dupont Circle</li>
-                <li className="hover:text-white cursor-pointer">Adams Morgan</li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Capitol Hill</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Georgetown</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Dupont Circle</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Adams Morgan</a></li>
               </ul>
             </div>
             <div>
               <h4 className="text-xs font-black text-white uppercase tracking-wider mb-3">Government</h4>
               <ul className="space-y-1.5 text-xs">
-                <li className="hover:text-white cursor-pointer">DC Council</li>
-                <li className="hover:text-white cursor-pointer">Mayor's Office</li>
-                <li className="hover:text-white cursor-pointer">Federal Updates</li>
-                <li className="hover:text-white cursor-pointer">Public Records</li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">DC Council</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Mayor's Office</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Federal Updates</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Public Records</a></li>
               </ul>
             </div>
             <div>
               <h4 className="text-xs font-black text-white uppercase tracking-wider mb-3">Sections</h4>
               <ul className="space-y-1.5 text-xs">
-                <li className="hover:text-white cursor-pointer">Investigations</li>
-                <li className="hover:text-white cursor-pointer">Opinion</li>
-                <li className="hover:text-white cursor-pointer">Obituaries</li>
-                <li className="hover:text-white cursor-pointer">Classifieds</li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Investigations</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Opinion</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Obituaries</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Classifieds</a></li>
               </ul>
             </div>
             <div>
               <h4 className="text-xs font-black text-white uppercase tracking-wider mb-3">Connect</h4>
               <ul className="space-y-1.5 text-xs">
-                <li className="hover:text-white cursor-pointer">Tip Line</li>
-                <li className="hover:text-white cursor-pointer">Advertise</li>
-                <li className="hover:text-white cursor-pointer">Careers</li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Tip Line</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Advertise</a></li>
+                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Careers</a></li>
                 <li>
                   <a
                     href="mailto:ciao_chris@proton.me"
-                    className="hover:text-white cursor-pointer"
+                    className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm"
                   >
                     Contact Us
                   </a>
@@ -511,9 +518,9 @@ const DCNewsLanding = () => {
           <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
             <p>&copy; 2026 Washington <span className="font-bold text-white">4</span> News. All rights reserved.</p>
             <div className="flex items-center gap-4">
-              <span className="hover:text-white cursor-pointer">Privacy Policy</span>
-              <span className="hover:text-white cursor-pointer">Terms</span>
-              <span className="hover:text-white cursor-pointer">Accessibility</span>
+              <a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Privacy Policy</a>
+              <a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Terms</a>
+              <a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Accessibility</a>
               <span className="text-gray-700">v1.<span className="text-gray-700">0</span></span>
             </div>
           </div>
