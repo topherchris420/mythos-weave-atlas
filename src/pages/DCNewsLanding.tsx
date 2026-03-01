@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail } from 'lucide-react';
+import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail, X, ImageOff } from 'lucide-react';
 import { FeaturedStoryCard } from '@/components/FeaturedStoryCard';
-import { useDCNews } from '@/hooks/useDCNews';
+import { useDCNews, type NewsArticle } from '@/hooks/useDCNews';
 import { useNewsPreferences } from '@/hooks/useNewsPreferences';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { resolveCovcomSignal } from '@/lib/covcom';
@@ -12,6 +12,11 @@ import { resolveCovcomSignal } from '@/lib/covcom';
 const DCNewsLanding = () => {
   const [searchValue, setSearchValue] = useState('');
   const { articles, loading } = useDCNews();
+  const {
+    selectedCategory, dismissedStories, dismissStory, restoreDismissedStories,
+    readingDensity, setReadingDensity, viewedCategories, continueReading,
+    trackArticleView, clearContinueReading,
+  } = useNewsPreferences();
   const navLinks = ['Local', 'Politics', 'Crime & Safety', 'Weather', 'Traffic', 'Sports', 'Entertainment'] as const;
   const [activeCategory, setActiveCategory] = useState<(typeof navLinks)[number]>(navLinks[0]);
 
@@ -273,36 +278,47 @@ const DCNewsLanding = () => {
                 gridArticles.map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 100}>
                     <article
-                      className={`bg-white border border-gray-200 ${densityCardClass} hover:shadow-md transition-shadow group cursor-pointer h-full`}
+                      className={`bg-white border border-gray-200 hover:shadow-md transition-shadow group cursor-pointer h-full overflow-hidden`}
                       onClick={() => handleArticleOpen(article)}
                     >
-                      <div className="flex items-start justify-between gap-3 mb-2">
-                        <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-1.5 py-0.5">
-                          {article.source.name}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            dismissStory(article.id);
-                          }}
-                          className="text-gray-300 hover:text-red-600 transition-colors"
-                          aria-label="Dismiss story"
-                        >
-                          <X className="h-3.5 w-3.5" />
-                        </button>
+                      <div className="h-36 bg-gray-100 overflow-hidden">
+                        {article.image ? (
+                          <img src={article.image} alt="" className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
+                        ) : (
+                          <div className="h-full w-full flex items-center justify-center text-xs text-gray-400 bg-gradient-to-br from-gray-50 to-gray-100">
+                            <ImageOff className="h-4 w-4 mr-1.5" /> No image
+                          </div>
+                        )}
                       </div>
-                      <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
-                        {article.title}
-                      </h3>
-                      <p className="text-sm text-gray-700 leading-relaxed line-clamp-3">
-                        {article.description}
-                      </p>
-                      <div className="flex items-center justify-between mt-3 text-xs text-gray-600">
-                        <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(article.publishedAt)}</span>
-                        <ExternalLink className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+                      <div className={densityCardClass}>
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-1.5 py-0.5">
+                            {article.source.name}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              dismissStory(article.id);
+                            }}
+                            className="text-gray-300 hover:text-red-600 transition-colors"
+                            aria-label="Dismiss story"
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                        <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
+                          {article.title}
+                        </h3>
+                        <p className="text-sm text-gray-700 leading-relaxed line-clamp-3">
+                          {article.description}
+                        </p>
+                        <div className="flex items-center justify-between mt-3 text-xs text-gray-600">
+                          <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(article.publishedAt)}</span>
+                          <ExternalLink className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+                        </div>
                       </div>
-                    </a>
+                    </article>
                   </ScrollReveal>
                 ))
               )}
@@ -314,19 +330,26 @@ const DCNewsLanding = () => {
                 {moreArticles.map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 80}>
                     <article
-                      className="bg-white border border-gray-200 p-4 hover:shadow-md transition-shadow group cursor-pointer"
+                      className="bg-white border border-gray-200 hover:shadow-md transition-shadow group cursor-pointer flex gap-3 overflow-hidden"
                       onClick={() => handleArticleOpen(article)}
                     >
-                      <h4 className="text-sm font-bold text-gray-900 mb-1 leading-snug group-hover:text-blue-900 transition-colors">
-                        {article.title}
-                      </h4>
-                      <p className="text-xs text-gray-700 line-clamp-2 mb-2">
-                        {article.description}
-                      </p>
-                      <span className="text-[10px] text-gray-600 flex items-center gap-1">
-                        <Clock className="h-2.5 w-2.5" /> {formatTime(article.publishedAt)}
-                      </span>
-                    </a>
+                      {article.image && (
+                        <div className="w-24 h-24 shrink-0 overflow-hidden">
+                          <img src={article.image} alt="" className="h-full w-full object-cover" loading="lazy" />
+                        </div>
+                      )}
+                      <div className="p-3 flex flex-col justify-center">
+                        <h4 className="text-sm font-bold text-gray-900 mb-1 leading-snug group-hover:text-blue-900 transition-colors">
+                          {article.title}
+                        </h4>
+                        <p className="text-xs text-gray-700 line-clamp-2 mb-2">
+                          {article.description}
+                        </p>
+                        <span className="text-[10px] text-gray-600 flex items-center gap-1">
+                          <Clock className="h-2.5 w-2.5" /> {formatTime(article.publishedAt)}
+                        </span>
+                      </div>
+                    </article>
                   </ScrollReveal>
                 ))}
               </div>
