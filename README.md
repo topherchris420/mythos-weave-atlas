@@ -2,10 +2,6 @@
 
 A responsive local covert news website for Washington DC. Features real-time DC news, weather updates, and trending stories.
 
-## 🔑 Secret Features
-
-- **Search "*"** in the search bar to access the project
-
 ## ✨ Features
 
 - **Live DC News** - Real-time news powered by GNews API
