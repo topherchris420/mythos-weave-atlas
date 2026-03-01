@@ -29,6 +29,7 @@ const DCNewsLanding = () => {
   };
 
   const filteredArticles = articles.filter((article) => article.category === activeCategory);
+  const breakingArticle = filteredArticles[0] ?? articles[0];
   const leadArticle = filteredArticles[0];
   const gridArticles = filteredArticles.slice(1, 5);
   const moreArticles = filteredArticles.slice(5, 9);
@@ -133,6 +134,7 @@ const DCNewsLanding = () => {
                   key={link}
                   type="button"
                   onClick={() => setActiveCategory(link)}
+                  aria-pressed={activeCategory === link}
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition-all whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-900 ${
                     activeCategory === link
                       ? 'bg-white text-blue-900 shadow-sm'
@@ -153,7 +155,7 @@ const DCNewsLanding = () => {
           </div>
 
           <div className="md:hidden space-y-2">
-            <div className="sticky top-0 z-50">
+            <div>
               <Select value={activeCategory} onValueChange={(value) => setActiveCategory(value as (typeof navLinks)[number])}>
                 <SelectTrigger className="h-10 border-blue-700 bg-blue-950 text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-900">
                   <SelectValue placeholder="Category" />
@@ -181,7 +183,7 @@ const DCNewsLanding = () => {
         <div className="max-w-7xl mx-auto px-4 py-1.5 flex items-center gap-3 text-sm">
           <span className="bg-white text-red-700 px-2 py-0.5 rounded-sm text-xs font-black tracking-wide shrink-0">BREAKING</span>
           <p className="truncate font-medium">
-            {loading ? 'Loading latest news...' : articles[0]?.title || 'Refresh for latest updates'}
+            {loading ? 'Loading latest news...' : breakingArticle?.title || 'Refresh for latest updates'}
           </p>
         </div>
       </div>

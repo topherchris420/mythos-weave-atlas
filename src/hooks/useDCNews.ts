@@ -32,7 +32,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: '2',
-    category: 'Entertainment',
+    category: 'Weather',
     title: 'National Cherry Blossom Festival Announces Peak Bloom Window',
     description: 'The National Park Service expects peak bloom around April 8-15, with enhanced pedestrian safety measures planned around the Tidal Basin.',
     content: '',
@@ -87,7 +87,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: '7',
-    category: 'Traffic',
+    category: 'Sports',
     title: 'DCA Ronald Reagan National Airport Reports Record Passenger Growth',
     description: 'The airport saw 25 million passengers last year, the highest since 2019, with new routes announced to Denver and Seattle.',
     content: '',
@@ -98,7 +98,7 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: '8',
-    category: 'Sports',
+    category: 'Entertainment',
     title: 'National Zoo Panda Cam Returns After Maintenance',
     description: 'The popular panda cam is back online with three new cubs expected to make public debut next month.',
     content: '',
