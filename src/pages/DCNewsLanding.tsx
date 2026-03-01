@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail } from 'lucide-react';
 import { FeaturedStoryCard } from '@/components/FeaturedStoryCard';
 import { useDCNews } from '@/hooks/useDCNews';
+import { useNewsPreferences } from '@/hooks/useNewsPreferences';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { resolveCovcomSignal } from '@/lib/covcom';
 
@@ -42,6 +43,42 @@ const DCNewsLanding = () => {
     "New art installation opens at Union Market",
     "Weekend road closures planned for Marathon prep",
   ];
+
+  const getArticleCategory = (title: string, sourceName: string) => {
+    const content = `${title} ${sourceName}`.toLowerCase();
+
+    if (content.includes('police') || content.includes('security') || content.includes('crime')) return 'Crime & Safety';
+    if (content.includes('weather') || content.includes('bloom')) return 'Weather';
+    if (content.includes('metro') || content.includes('airport') || content.includes('traffic')) return 'Traffic';
+    if (content.includes('council') || content.includes('capitol') || content.includes('budget')) return 'Politics';
+    if (content.includes('nationals') || content.includes('sports')) return 'Sports';
+    if (content.includes('museum') || content.includes('zoo') || content.includes('festival')) return 'Entertainment';
+
+    return 'Local';
+  };
+
+  const visibleArticles = articles
+    .filter((article) => !dismissedStories.includes(article.id))
+    .filter((article) => selectedCategory === 'All' || getArticleCategory(article.title, article.source.name) === selectedCategory);
+
+  const forYouArticles = articles
+    .filter((article) => !dismissedStories.includes(article.id))
+    .filter((article) => viewedCategories.includes(getArticleCategory(article.title, article.source.name)))
+    .slice(0, 3);
+
+  const densityCardClass = readingDensity === 'compact' ? 'p-3' : 'p-5';
+
+  const handleArticleOpen = (article: (typeof articles)[number]) => {
+    trackArticleView({
+      id: article.id,
+      title: article.title,
+      url: article.url,
+      sourceName: article.source.name,
+      category: getArticleCategory(article.title, article.source.name),
+    });
+
+    window.open(article.url, '_blank');
+  };
 
   // Format published time
   const formatTime = (dateString: string) => {
@@ -195,7 +232,7 @@ const DCNewsLanding = () => {
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-0">
             {/* Lead Story */}
-            {articles.length > 0 && (
+            {visibleArticles.length > 0 && (
               <ScrollReveal>
                 <div className="mb-4">
                   <FeaturedStoryCard article={articles[0]} formatTime={formatTime} />
@@ -220,13 +257,24 @@ const DCNewsLanding = () => {
                 gridArticles.map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 100}>
                     <article
-                      className="bg-white border border-gray-200 p-5 hover:shadow-md transition-shadow group cursor-pointer h-full"
-                      onClick={() => window.open(article.url, '_blank')}
+                      className={`bg-white border border-gray-200 ${densityCardClass} hover:shadow-md transition-shadow group cursor-pointer h-full`}
+                      onClick={() => handleArticleOpen(article)}
                     >
-                      <div className="flex items-center gap-2 mb-2">
+                      <div className="flex items-start justify-between gap-3 mb-2">
                         <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-1.5 py-0.5">
                           {article.source.name}
                         </span>
+                        <button
+                          type="button"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            dismissStory(article.id);
+                          }}
+                          className="text-gray-300 hover:text-red-600 transition-colors"
+                          aria-label="Dismiss story"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </button>
                       </div>
                       <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
                         {article.title}
@@ -251,7 +299,7 @@ const DCNewsLanding = () => {
                   <ScrollReveal key={article.id} delay={idx * 80}>
                     <article
                       className="bg-white border border-gray-200 p-4 hover:shadow-md transition-shadow group cursor-pointer"
-                      onClick={() => window.open(article.url, '_blank')}
+                      onClick={() => handleArticleOpen(article)}
                     >
                       <h4 className="text-sm font-bold text-gray-900 mb-1 leading-snug group-hover:text-blue-900 transition-colors">
                         {article.title}
@@ -272,6 +320,85 @@ const DCNewsLanding = () => {
           {/* Sidebar */}
           <aside className="space-y-4">
             <ScrollReveal>
+              <div className="bg-white border border-gray-200 p-4">
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-blue-900 pb-2 mb-3">Your Preferences</h3>
+                <div className="space-y-3 text-xs">
+                  <div>
+                    <p className="font-semibold text-gray-700 mb-1">Reading density</p>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setReadingDensity('comfortable')}
+                        className={`px-2.5 py-1 rounded-sm border ${readingDensity === 'comfortable' ? 'bg-blue-900 text-white border-blue-900' : 'border-gray-300 text-gray-600'}`}
+                      >
+                        Comfortable
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setReadingDensity('compact')}
+                        className={`px-2.5 py-1 rounded-sm border ${readingDensity === 'compact' ? 'bg-blue-900 text-white border-blue-900' : 'border-gray-300 text-gray-600'}`}
+                      >
+                        Compact
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-700">Saved category</p>
+                    <p className="text-gray-500 mt-0.5">{selectedCategory}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={restoreDismissedStories} className="text-blue-700 hover:underline">
+                      Restore dismissed ({dismissedStories.length})
+                    </button>
+                    <button type="button" onClick={clearContinueReading} className="text-blue-700 hover:underline">
+                      Clear continue reading
+                    </button>
+                  </div>
+                  <p className="text-[11px] text-gray-500">Preferences stay in this browser only. No remote tracking.</p>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={60}>
+              <div className="bg-white border border-gray-200 p-4">
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-emerald-700 pb-2 mb-3">For You</h3>
+                {forYouArticles.length > 0 ? (
+                  <ul className="space-y-2">
+                    {forYouArticles.map((article) => (
+                      <li key={article.id}>
+                        <button type="button" onClick={() => handleArticleOpen(article)} className="text-left w-full text-sm text-gray-700 hover:text-blue-900 leading-snug">
+                          {article.title}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-xs text-gray-500">Read a few stories and we will tailor this block to your recent interests.</p>
+                )}
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={80}>
+              <div className="bg-white border border-gray-200 p-4">
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-violet-700 pb-2 mb-3">Continue Reading</h3>
+                {continueReading.length > 0 ? (
+                  <ul className="space-y-2">
+                    {continueReading.map((item) => (
+                      <li key={item.id} className="text-xs">
+                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-700 hover:text-blue-900 leading-snug">
+                          {item.title}
+                        </a>
+                        <p className="text-[11px] text-gray-400 mt-0.5">{item.category} • {item.sourceName}</p>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-xs text-gray-500">Articles you open in this session appear here.</p>
+                )}
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={90}>
               <div className="bg-white border border-gray-200 p-4">
                 <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-blue-900 pb-2 mb-3">Weather</h3>
                 <div className="flex items-center justify-between">
