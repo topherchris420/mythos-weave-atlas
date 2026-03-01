@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail } from 'lucide-react';
-import { useDCNews } from '@/hooks/useDCNews';
+import { Search, Cloud, Thermometer, Wind, Mail } from 'lucide-react';
+import { NewsCard } from '@/components/NewsCard';
+import { useDCNews, type NewsArticle } from '@/hooks/useDCNews';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { resolveCovcomSignal } from '@/lib/covcom';
 
@@ -70,6 +71,15 @@ const DCNewsLanding = () => {
     low: 41,
     wind: 'NW 8 mph'
   });
+
+  const estimateReadTime = (article: NewsArticle) => {
+    const words = `${article.title} ${article.description} ${article.content || ''}`
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean).length;
+    const minutes = Math.max(1, Math.round(words / 200));
+    return `${minutes} min read`;
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -157,28 +167,16 @@ const DCNewsLanding = () => {
             {/* Lead Story */}
             {articles.length > 0 && (
               <ScrollReveal>
-                <article className="bg-white border border-gray-200 p-6 mb-4">
-                  <span className="text-xs font-bold text-red-600 uppercase tracking-wider">Top Story</span>
-                  <h1 className="text-2xl md:text-3xl font-black text-gray-900 mt-2 mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
-                    {articles[0].title}
-                  </h1>
-                  <p className="text-gray-600 leading-relaxed mb-3">
-                    {articles[0].description}
-                  </p>
-                  <div className="flex items-center gap-3 text-xs text-gray-400">
-                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(articles[0].publishedAt)}</span>
-                    <span>|</span>
-                    <span>By {articles[0].source.name}</span>
-                    <a
-                      href={articles[0].url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-blue-600 hover:underline ml-auto"
-                    >
-                      Read more <ExternalLink className="h-3 w-3" />
-                    </a>
-                  </div>
-                </article>
+                <NewsCard
+                  title={articles[0].title}
+                  description={articles[0].description}
+                  url={articles[0].url}
+                  category="Top Story"
+                  readTime={estimateReadTime(articles[0])}
+                  recency={formatTime(articles[0].publishedAt)}
+                  variant="featured"
+                  className="mb-4"
+                />
               </ScrollReveal>
             )}
 
@@ -198,26 +196,16 @@ const DCNewsLanding = () => {
               ) : (
                 articles.slice(1, 5).map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 100}>
-                    <article
-                      className="bg-white border border-gray-200 p-5 hover:shadow-md transition-shadow group cursor-pointer h-full"
-                      onClick={() => window.open(article.url, '_blank')}
-                    >
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-1.5 py-0.5">
-                          {article.source.name}
-                        </span>
-                      </div>
-                      <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
-                        {article.title}
-                      </h3>
-                      <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">
-                        {article.description}
-                      </p>
-                      <div className="flex items-center justify-between mt-3 text-xs text-gray-400">
-                        <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(article.publishedAt)}</span>
-                        <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                    </article>
+                    <NewsCard
+                      title={article.title}
+                      description={article.description}
+                      url={article.url}
+                      category={article.source.name}
+                      readTime={estimateReadTime(article)}
+                      recency={formatTime(article.publishedAt)}
+                      thumbnail={article.image}
+                      variant="standard"
+                    />
                   </ScrollReveal>
                 ))
               )}
@@ -228,20 +216,16 @@ const DCNewsLanding = () => {
               <div className="mt-4 grid md:grid-cols-2 gap-4">
                 {articles.slice(5, 9).map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 80}>
-                    <article
-                      className="bg-white border border-gray-200 p-4 hover:shadow-md transition-shadow group cursor-pointer"
-                      onClick={() => window.open(article.url, '_blank')}
-                    >
-                      <h4 className="text-sm font-bold text-gray-900 mb-1 leading-snug group-hover:text-blue-900 transition-colors">
-                        {article.title}
-                      </h4>
-                      <p className="text-xs text-gray-500 line-clamp-2 mb-2">
-                        {article.description}
-                      </p>
-                      <span className="text-[10px] text-gray-400 flex items-center gap-1">
-                        <Clock className="h-2.5 w-2.5" /> {formatTime(article.publishedAt)}
-                      </span>
-                    </article>
+                    <NewsCard
+                      title={article.title}
+                      description={article.description}
+                      url={article.url}
+                      category={article.source.name}
+                      readTime={estimateReadTime(article)}
+                      recency={formatTime(article.publishedAt)}
+                      thumbnail={article.image}
+                      variant="compact"
+                    />
                   </ScrollReveal>
                 ))}
               </div>
