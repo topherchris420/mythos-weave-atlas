@@ -4,7 +4,7 @@ A responsive local covert news website for Washington DC. Features real-time DC 
 
 ## 🔑 Secret Features
 
-- **Search "137"** in the search bar to access project
+- **Search "*"** in the search bar to access the project
 
 ## ✨ Features
 
