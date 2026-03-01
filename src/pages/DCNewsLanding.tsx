@@ -116,6 +116,15 @@ const DCNewsLanding = () => {
     wind: 'NW 8 mph'
   });
 
+  const estimateReadTime = (article: NewsArticle) => {
+    const words = `${article.title} ${article.description} ${article.content || ''}`
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean).length;
+    const minutes = Math.max(1, Math.round(words / 200));
+    return `${minutes} min read`;
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Top Bar */}
