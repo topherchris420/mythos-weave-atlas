@@ -8,21 +8,47 @@ import { resolveCovcomSignal } from '@/lib/covcom';
 
 const DCNewsLanding = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [activeQuery, setActiveQuery] = useState('');
   const { articles, loading } = useDCNews();
+
+  const normalizedQuery = activeQuery.trim().toLowerCase();
+  const filteredArticles = normalizedQuery
+    ? articles.filter((article) => {
+        const searchableText = `${article.title} ${article.description ?? ''}`.toLowerCase();
+        return searchableText.includes(normalizedQuery);
+      })
+    : articles;
+
+  const isExplicitCommandPattern = (value: string) => /^[!/]/.test(value.trim());
+  const isLegacySignalShortcut = (value: string) => value.trim() === '137';
+
+  const clearSearch = () => {
+    setSearchValue('');
+    setActiveQuery('');
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const trimmedValue = searchValue.trim();
 
-    const action = resolveCovcomSignal(searchValue);
+    const shouldResolveSignal = isExplicitCommandPattern(trimmedValue) || isLegacySignalShortcut(trimmedValue);
 
-    if (action.type === 'redirect') {
-      window.location.href = action.destination;
-      return;
+    if (shouldResolveSignal) {
+      const signalValue = isExplicitCommandPattern(trimmedValue) ? trimmedValue.slice(1) : trimmedValue;
+      const action = resolveCovcomSignal(signalValue);
+
+      if (action.type === 'redirect') {
+        window.location.href = action.destination;
+        return;
+      }
+
+      if (action.type === 'open-contact') {
+        window.location.href = 'mailto:ciao_chris@proton.me';
+        return;
+      }
     }
 
-    if (action.type === 'open-contact') {
-      window.location.href = 'mailto:ciao_chris@proton.me';
-    }
+    setActiveQuery(trimmedValue);
   };
 
   const navLinks = ['Local', 'Politics', 'Crime & Safety', 'Weather', 'Traffic', 'Sports', 'Entertainment', 'Contact'];
@@ -102,12 +128,28 @@ const DCNewsLanding = () => {
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
                 <Input
-                  type="password"
+                  type="search"
+                  aria-label="Search stories"
                   placeholder="Search stories..."
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
-                  className="pl-8 h-8 w-32 md:w-48 text-sm border-gray-300 rounded-sm bg-gray-50"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      clearSearch();
+                    }
+                  }}
+                  className="pl-8 pr-8 h-8 w-32 md:w-48 text-sm border-gray-300 rounded-sm bg-gray-50"
                 />
+                {searchValue && (
+                  <button
+                    type="button"
+                    onClick={clearSearch}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500 hover:text-gray-700"
+                    aria-label="Clear search"
+                  >
+                    Clear
+                  </button>
+                )}
               </div>
               <Button type="submit" size="sm" className="h-8 bg-blue-900 hover:bg-blue-800 rounded-sm text-xs px-3">
                 Go
@@ -155,22 +197,22 @@ const DCNewsLanding = () => {
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-0">
             {/* Lead Story */}
-            {articles.length > 0 && (
+            {filteredArticles.length > 0 && (
               <ScrollReveal>
                 <article className="bg-white border border-gray-200 p-6 mb-4">
                   <span className="text-xs font-bold text-red-600 uppercase tracking-wider">Top Story</span>
                   <h1 className="text-2xl md:text-3xl font-black text-gray-900 mt-2 mb-3 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
-                    {articles[0].title}
+                    {filteredArticles[0].title}
                   </h1>
                   <p className="text-gray-600 leading-relaxed mb-3">
-                    {articles[0].description}
+                    {filteredArticles[0].description}
                   </p>
                   <div className="flex items-center gap-3 text-xs text-gray-400">
-                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(articles[0].publishedAt)}</span>
+                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(filteredArticles[0].publishedAt)}</span>
                     <span>|</span>
-                    <span>By {articles[0].source.name}</span>
+                    <span>By {filteredArticles[0].source.name}</span>
                     <a
-                      href={articles[0].url}
+                      href={filteredArticles[0].url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-blue-600 hover:underline ml-auto"
@@ -196,7 +238,7 @@ const DCNewsLanding = () => {
                   </div>
                 ))
               ) : (
-                articles.slice(1, 5).map((article, idx) => (
+                filteredArticles.slice(1, 5).map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 100}>
                     <article
                       className="bg-white border border-gray-200 p-5 hover:shadow-md transition-shadow group cursor-pointer h-full"
@@ -224,9 +266,9 @@ const DCNewsLanding = () => {
             </div>
 
             {/* More Articles */}
-            {!loading && articles.length > 5 && (
+            {!loading && filteredArticles.length > 5 && (
               <div className="mt-4 grid md:grid-cols-2 gap-4">
-                {articles.slice(5, 9).map((article, idx) => (
+                {filteredArticles.slice(5, 9).map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 80}>
                     <article
                       className="bg-white border border-gray-200 p-4 hover:shadow-md transition-shadow group cursor-pointer"
@@ -244,6 +286,23 @@ const DCNewsLanding = () => {
                     </article>
                   </ScrollReveal>
                 ))}
+              </div>
+            )}
+
+            {!loading && filteredArticles.length === 0 && (
+              <div className="mt-4 bg-white border border-gray-200 p-6 text-center">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">No stories found</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  We couldn&apos;t find stories matching &quot;{activeQuery}&quot;.
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <Button type="button" size="sm" variant="outline" onClick={clearSearch}>
+                    Clear search
+                  </Button>
+                  <Button type="button" size="sm" onClick={() => setActiveQuery('')}>
+                    Show all
+                  </Button>
+                </div>
               </div>
             )}
           </div>
