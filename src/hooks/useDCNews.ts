@@ -1,6 +1,5 @@
-// DC News Hook - Uses static authentic-looking headlines
-// GNews API free tier has 12hr delay + CORS issues, so using curated content
 import { useState, useEffect, useCallback } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 export interface NewsArticle {
   id: string;
@@ -17,8 +16,8 @@ export interface NewsArticle {
   };
 }
 
-// Curated authentic DC headlines - refreshed periodically
-const DC_NEWS_ARTICLES: NewsArticle[] = [
+// Fallback static articles in case the API is unavailable
+const FALLBACK_ARTICLES: NewsArticle[] = [
   {
     id: '1',
     category: 'Traffic',
@@ -63,65 +62,41 @@ const DC_NEWS_ARTICLES: NewsArticle[] = [
     publishedAt: new Date(Date.now() - 10800000).toISOString(),
     source: { name: 'Smithsonian Insider', url: 'https://www.si.edu' }
   },
-  {
-    id: '5',
-    category: 'Local',
-    title: 'Georgetown Waterfront Park Expansion Breaks Ground',
-    description: 'Construction begins on 2-acre extension featuring new kayak launch, restaurant pavilion, and enhanced flood mitigation infrastructure.',
-    content: '',
-    url: 'https://dc.gov',
-    image: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=600&h=400&fit=crop',
-    publishedAt: new Date(Date.now() - 14400000).toISOString(),
-    source: { name: 'DC Business Journal', url: 'https://dc.gov' }
-  },
-  {
-    id: '6',
-    category: 'Crime & Safety',
-    title: 'Capitol Police Enhance Security Perimeter Protocols',
-    description: 'USCP announces adjusted vehicle inspection procedures for vehicles entering the Capitol complex, effective next month.',
-    content: '',
-    url: 'https://www.uscp.gov',
-    image: 'https://images.unsplash.com/photo-1585399058947-5f1b59b6ed1e?w=600&h=400&fit=crop',
-    publishedAt: new Date(Date.now() - 18000000).toISOString(),
-    source: { name: 'Capitol Police News', url: 'https://www.uscp.gov' }
-  },
-  {
-    id: '7',
-    category: 'Sports',
-    title: 'DCA Ronald Reagan National Airport Reports Record Passenger Growth',
-    description: 'The airport saw 25 million passengers last year, the highest since 2019, with new routes announced to Denver and Seattle.',
-    content: '',
-    url: 'https://www.flyreagan.com',
-    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&h=400&fit=crop',
-    publishedAt: new Date(Date.now() - 21600000).toISOString(),
-    source: { name: 'DCA Aviation News', url: 'https://www.flyreagan.com' }
-  },
-  {
-    id: '8',
-    category: 'Entertainment',
-    title: 'National Zoo Panda Cam Returns After Maintenance',
-    description: 'The popular panda cam is back online with three new cubs expected to make public debut next month.',
-    content: '',
-    url: 'https://nationalzoo.si.edu',
-    image: 'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=600&h=400&fit=crop',
-    publishedAt: new Date(Date.now() - 25200000).toISOString(),
-    source: { name: 'NZP News', url: 'https://nationalzoo.si.edu' }
-  }
 ];
 
-export const useDCNews = () => {
+export const useDCNews = (category?: string) => {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchNews = useCallback(async () => {
     setLoading(true);
+    setError(null);
 
-    // Simulate network delay for more authentic feel
-    await new Promise(resolve => setTimeout(resolve, 800));
+    try {
+      const { data, error: fnError } = await supabase.functions.invoke('fetch-dc-news', {
+        body: null,
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-    // Use curated articles (no API needed)
-    setArticles(DC_NEWS_ARTICLES);
-    setLoading(false);
+      if (fnError) {
+        console.error('Edge function error:', fnError);
+        throw new Error(fnError.message || 'Failed to fetch news');
+      }
+
+      if (data?.articles && data.articles.length > 0) {
+        setArticles(data.articles);
+      } else {
+        // Use fallback if API returns no results
+        setArticles(FALLBACK_ARTICLES);
+      }
+    } catch (err) {
+      console.error('News fetch failed, using fallback:', err);
+      setError(err instanceof Error ? err.message : 'Failed to fetch news');
+      setArticles(FALLBACK_ARTICLES);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -132,5 +107,5 @@ export const useDCNews = () => {
     fetchNews();
   }, [fetchNews]);
 
-  return { articles, loading, error: null, refresh };
+  return { articles, loading, error, refresh };
 };
