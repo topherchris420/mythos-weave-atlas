@@ -11,14 +11,14 @@ import { resolveCovcomSignal } from '@/lib/covcom';
 
 const DCNewsLanding = () => {
   const [searchValue, setSearchValue] = useState('');
-  const { articles, loading } = useDCNews();
+  const navLinks = ['Local', 'Politics', 'Crime & Safety', 'Weather', 'Traffic', 'Sports', 'Entertainment'] as const;
+  const [activeCategory, setActiveCategory] = useState<(typeof navLinks)[number]>(navLinks[0]);
+  const { articles, loading, refresh } = useDCNews(activeCategory);
   const {
     selectedCategory, dismissedStories, dismissStory, restoreDismissedStories,
     readingDensity, setReadingDensity, viewedCategories, continueReading,
     trackArticleView, clearContinueReading,
   } = useNewsPreferences();
-  const navLinks = ['Local', 'Politics', 'Crime & Safety', 'Weather', 'Traffic', 'Sports', 'Entertainment'] as const;
-  const [activeCategory, setActiveCategory] = useState<(typeof navLinks)[number]>(navLinks[0]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,11 +35,10 @@ const DCNewsLanding = () => {
     }
   };
 
-  const filteredArticles = articles.filter((article) => article.category === activeCategory);
-  const breakingArticle = filteredArticles[0] ?? articles[0];
-  const leadArticle = filteredArticles[0];
-  const gridArticles = filteredArticles.slice(1, 5);
-  const moreArticles = filteredArticles.slice(5, 9);
+  const breakingArticle = articles[0];
+  const leadArticle = articles[0];
+  const gridArticles = articles.slice(1, 5);
+  const moreArticles = articles.slice(5, 9);
 
   const sidebarStories = [
     "Council approves new bike lane network for NW",

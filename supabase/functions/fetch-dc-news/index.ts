@@ -20,21 +20,36 @@ serve(async (req) => {
   }
 
   try {
-    const url = new URL(req.url);
-    const category = url.searchParams.get("category") || "general";
+    // Parse category from request body or query params
+    let category = "All";
+    try {
+      const body = await req.json();
+      if (body?.category) category = body.category;
+    } catch {
+      const url = new URL(req.url);
+      category = url.searchParams.get("category") || "All";
+    }
 
-    // GNews search endpoint for DC-specific news
+    // Map UI categories to search keywords
+    const categoryKeywords: Record<string, string> = {
+      "Local": "Washington DC local news",
+      "Politics": "Washington DC politics government",
+      "Crime & Safety": "Washington DC crime safety police",
+      "Weather": "Washington DC weather",
+      "Traffic": "Washington DC traffic metro transit",
+      "Sports": "Washington DC sports nationals commanders",
+      "Entertainment": "Washington DC entertainment arts culture",
+      "All": "Washington DC",
+    };
+
+    const searchQuery = categoryKeywords[category] || "Washington DC";
+
     const gnewsUrl = new URL("https://gnews.io/api/v4/search");
-    gnewsUrl.searchParams.set("q", "Washington DC");
+    gnewsUrl.searchParams.set("q", searchQuery);
     gnewsUrl.searchParams.set("lang", "en");
     gnewsUrl.searchParams.set("country", "us");
     gnewsUrl.searchParams.set("max", "10");
     gnewsUrl.searchParams.set("apikey", GNEWS_API_KEY);
-
-    // Map our categories to GNews topic keywords
-    if (category !== "general" && category !== "All") {
-      gnewsUrl.searchParams.set("q", `Washington DC ${category}`);
-    }
 
     const response = await fetch(gnewsUrl.toString());
     
@@ -52,7 +67,7 @@ serve(async (req) => {
     // Transform GNews response to match our NewsArticle format
     const articles = (data.articles || []).map((article: any, index: number) => ({
       id: `gnews-${Date.now()}-${index}`,
-      category: category === "general" || category === "All" ? "Local" : category,
+      category: category === "All" ? "Local" : category,
       title: article.title || "Untitled",
       description: article.description || "",
       content: article.content || "",

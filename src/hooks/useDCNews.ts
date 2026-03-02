@@ -75,7 +75,7 @@ export const useDCNews = (category?: string) => {
 
     try {
       const { data, error: fnError } = await supabase.functions.invoke('fetch-dc-news', {
-        body: null,
+        body: { category: category || 'All' },
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -97,7 +97,7 @@ export const useDCNews = (category?: string) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [category]);
 
   useEffect(() => {
     fetchNews();
