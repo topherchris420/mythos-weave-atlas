@@ -6,6 +6,7 @@ import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail, X, ImageOf
 import { FeaturedStoryCard } from '@/components/FeaturedStoryCard';
 import { useDCNews, type NewsArticle } from '@/hooks/useDCNews';
 import { useNewsPreferences } from '@/hooks/useNewsPreferences';
+import { useDCWeather } from '@/hooks/useDCWeather';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { resolveCovcomSignal } from '@/lib/covcom';
 
