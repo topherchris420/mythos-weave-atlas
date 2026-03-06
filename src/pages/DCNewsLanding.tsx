@@ -112,14 +112,8 @@ const DCNewsLanding = () => {
     day: 'numeric'
   });
 
-  // Current weather (simulated)
-  const [weather] = useState({
-    temp: 58,
-    condition: 'Partly Cloudy',
-    high: 64,
-    low: 41,
-    wind: 'NW 8 mph'
-  });
+  // Live weather data
+  const { weather } = useDCWeather();
 
   const estimateReadTime = (article: NewsArticle) => {
     const words = `${article.title} ${article.description} ${article.content || ''}`
