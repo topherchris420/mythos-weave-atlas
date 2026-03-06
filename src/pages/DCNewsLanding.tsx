@@ -153,11 +153,9 @@ const DCNewsLanding = () => {
       <header className="bg-white border-b-4 border-blue-900">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
-            <img
-              src="/lovable-uploads/54285b0c-5164-458a-824f-29127fbe2194.png"
-              alt="4 Washington logo"
-              className="h-20 w-auto max-w-[320px] object-contain"
-            />
+            <div className="text-2xl font-black text-blue-900 tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
+              DC<span className="text-red-600">4</span> News
+            </div>
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
