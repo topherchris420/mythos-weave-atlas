@@ -73,6 +73,13 @@ export const useDCNews = (category?: string) => {
     setLoading(true);
     setError(null);
 
+    if (!supabase) {
+      setArticles(FALLBACK_ARTICLES);
+      setError('Supabase is not configured. Showing fallback news.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const { data, error: fnError } = await supabase.functions.invoke('fetch-dc-news', {
         body: { category: category || 'All' },
