@@ -6,6 +6,7 @@ import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail, X, ImageOf
 import { FeaturedStoryCard } from '@/components/FeaturedStoryCard';
 import { useDCNews, type NewsArticle } from '@/hooks/useDCNews';
 import { useNewsPreferences } from '@/hooks/useNewsPreferences';
+import { useDCWeather } from '@/hooks/useDCWeather';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { resolveCovcomSignal } from '@/lib/covcom';
 
@@ -111,14 +112,8 @@ const DCNewsLanding = () => {
     day: 'numeric'
   });
 
-  // Current weather (simulated)
-  const [weather] = useState({
-    temp: 58,
-    condition: 'Partly Cloudy',
-    high: 64,
-    low: 41,
-    wind: 'NW 8 mph'
-  });
+  // Live weather data
+  const { weather } = useDCWeather();
 
   const estimateReadTime = (article: NewsArticle) => {
     const words = `${article.title} ${article.description} ${article.content || ''}`
