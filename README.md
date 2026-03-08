@@ -45,7 +45,7 @@ Then visit `http://localhost:8080`
 
 ## 🕵️ COVCOM Architecture (Covert Communication)
 
-The hidden command flow now uses a small COVCOM layer (`src/lib/covcom.ts`) so covert triggers are centralized, typed, and easy to extend.
+The hidden command flow now uses a small COVCOM layer (`src/lib/covcom.ts`) to centralize, type, and make it easy to extend covert triggers.
 
 - **Signal normalization**: incoming input is normalized before matching.
 - **Channel registry**: each covert channel defines aliases + a resolver.
