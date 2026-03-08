@@ -30,15 +30,16 @@ serve(async (req) => {
     }
 
     // Use simpler, broader search terms that GNews is more likely to return results for
+    // Use quoted "Washington DC" to force exact match — prevents unrelated US news
     const categoryKeywords: Record<string, string> = {
-      "Local": "Washington DC",
-      "Politics": "DC politics congress White House",
-      "Crime & Safety": "DC crime police shooting arrest",
-      "Weather": "DC weather storm temperature forecast",
-      "Traffic": "DC metro traffic transit commute",
-      "Sports": "DC sports Commanders Nationals Capitals Wizards",
-      "Entertainment": "DC entertainment museum concert festival",
-      "All": "Washington DC news",
+      "Local": '"Washington DC" OR "Washington D.C." OR "District of Columbia"',
+      "Politics": '"Washington DC" OR "D.C. Council" OR "Capitol Hill" politics',
+      "Crime & Safety": '"Washington DC" OR "D.C. police" OR "MPD" crime',
+      "Weather": '"Washington DC" OR "D.C. area" weather',
+      "Traffic": '"Washington DC" OR "WMATA" OR "Metro" transit traffic',
+      "Sports": '"Washington DC" Commanders OR Nationals OR Capitals OR Wizards',
+      "Entertainment": '"Washington DC" OR "Smithsonian" OR "Kennedy Center" entertainment',
+      "All": '"Washington DC" OR "Washington D.C."',
     };
 
     // Some categories map better to GNews topic categories
