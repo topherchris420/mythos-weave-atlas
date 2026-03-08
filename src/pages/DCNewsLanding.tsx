@@ -452,7 +452,6 @@ const DCNewsLanding = () => {
                 <ol className="space-y-3">
                   {sidebarStories.map((story, i) => (
                     <li key={i} className="flex items-start gap-3 group cursor-pointer">
-                      <span className="text-2xl font-black text-gray-200 leading-none">{i + 1}</span>
                       <p className="text-sm text-gray-700 leading-snug group-hover:text-blue-900 transition-colors font-medium pt-0.5">
                         {story}
                       </p>
