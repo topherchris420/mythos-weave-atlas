@@ -454,9 +454,9 @@ const DCNewsLanding = () => {
                     <li key={i} className="flex items-start gap-3 group cursor-pointer">
                       <span className={`text-2xl font-black leading-none select-all ${
                         [0, 2, 6].includes(i) 
-                          ? 'text-red-600/40 hover:text-red-600 transition-colors duration-500' 
+                          ? 'text-red-600/30 hover:text-red-600 transition-all duration-500 animate-[subtle-glow_4s_ease-in-out_infinite]' 
                           : 'text-gray-200'
-                      }`} style={[0, 2, 6].includes(i) ? { fontFamily: 'Georgia, serif', letterSpacing: '0.05em' } : {}}>{i + 1}</span>
+                      }`} style={[0, 2, 6].includes(i) ? { fontFamily: 'Georgia, serif', letterSpacing: '0.05em', animationDelay: `${i * 0.7}s` } : {}}>{i + 1}</span>
                       <p className="text-sm text-gray-700 leading-snug group-hover:text-blue-900 transition-colors font-medium pt-0.5">
                         {story}
                       </p>

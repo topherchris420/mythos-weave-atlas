@@ -153,6 +153,17 @@ All colors MUST be HSL.
   }
 }
 
+@keyframes subtle-glow {
+  0%, 100% {
+    opacity: 0.3;
+    text-shadow: none;
+  }
+  50% {
+    opacity: 0.55;
+    text-shadow: 0 0 8px hsl(0 84% 60% / 0.15);
+  }
+}
+
 /* Archetypal Morphing Effects */
 .terrain-morph {
   transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
