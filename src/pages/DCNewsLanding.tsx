@@ -1,4 +1,5 @@
 import { useState } from 'react'; // live data v2
+import dc4Logo from '@/assets/dc4-news-logo.png';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
