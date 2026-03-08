@@ -20,7 +20,6 @@ serve(async (req) => {
   }
 
   try {
-    // Parse category from request body or query params
     let category = "All";
     try {
       const body = await req.json();
@@ -30,20 +29,34 @@ serve(async (req) => {
       category = url.searchParams.get("category") || "All";
     }
 
-    // Map UI categories to search keywords
+    // Use simpler, broader search terms that GNews is more likely to return results for
     const categoryKeywords: Record<string, string> = {
-      "Local": "Washington DC local news",
-      "Politics": "Washington DC politics government",
-      "Crime & Safety": "Washington DC crime safety police",
-      "Weather": "Washington DC weather",
-      "Traffic": "Washington DC traffic metro transit",
-      "Sports": "Washington DC sports nationals commanders",
-      "Entertainment": "Washington DC entertainment arts culture",
-      "All": "Washington DC",
+      "Local": "Washington DC",
+      "Politics": "DC politics congress White House",
+      "Crime & Safety": "DC crime police shooting arrest",
+      "Weather": "DC weather storm temperature forecast",
+      "Traffic": "DC metro traffic transit commute",
+      "Sports": "DC sports Commanders Nationals Capitals Wizards",
+      "Entertainment": "DC entertainment museum concert festival",
+      "All": "Washington DC news",
     };
 
-    const searchQuery = categoryKeywords[category] || "Washington DC";
+    // Some categories map better to GNews topic categories
+    const topicCategories: Record<string, string | null> = {
+      "Politics": "nation",
+      "Sports": "sports",
+      "Entertainment": "entertainment",
+      "Crime & Safety": "nation",
+      "Weather": "science",
+      "Traffic": null,
+      "Local": null,
+      "All": null,
+    };
 
+    const searchQuery = categoryKeywords[category] || "Washington DC news";
+    const topicCategory = topicCategories[category] ?? null;
+
+    // Try search endpoint first
     const gnewsUrl = new URL("https://gnews.io/api/v4/search");
     gnewsUrl.searchParams.set("q", searchQuery);
     gnewsUrl.searchParams.set("lang", "en");
@@ -51,20 +64,24 @@ serve(async (req) => {
     gnewsUrl.searchParams.set("max", "10");
     gnewsUrl.searchParams.set("apikey", GNEWS_API_KEY);
 
+    console.log(`Fetching news for category "${category}" with query: "${searchQuery}"`);
+
     const response = await fetch(gnewsUrl.toString());
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`GNews API error [${response.status}]:`, errorText);
+      
+      // If rate limited or error, return empty with informative message
       return new Response(
-        JSON.stringify({ error: `GNews API error: ${response.status}`, details: errorText }),
-        { status: response.status, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ articles: [], rateLimited: response.status === 429 }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
     const data = await response.json();
+    console.log(`GNews returned ${data.articles?.length || 0} articles for "${category}"`);
 
-    // Transform GNews response to match our NewsArticle format
     const articles = (data.articles || []).map((article: any, index: number) => ({
       id: `gnews-${Date.now()}-${index}`,
       category: category === "All" ? "Local" : category,
@@ -87,8 +104,8 @@ serve(async (req) => {
     console.error("Error fetching news:", error);
     const message = error instanceof Error ? error.message : "Unknown error";
     return new Response(
-      JSON.stringify({ error: message }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      JSON.stringify({ articles: [], error: message }),
+      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });
