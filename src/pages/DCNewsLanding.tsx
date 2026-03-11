@@ -494,60 +494,53 @@ const DCNewsLanding = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 mt-8">
-        <div className="max-w-7xl mx-auto px-4 py-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+      <footer className="bg-gray-900 text-gray-400 mt-12">
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
             <div>
-              <h4 className="text-xs font-black text-white uppercase tracking-wider mb-3">Neighborhoods</h4>
-              <ul className="space-y-1.5 text-xs">
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Capitol Hill</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Georgetown</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Dupont Circle</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Adams Morgan</a></li>
+              <h4 className="text-[11px] font-black text-white uppercase tracking-widest mb-4">Neighborhoods</h4>
+              <ul className="space-y-2 text-xs">
+                <li><a href="#" className="hover:text-white transition-colors">Capitol Hill</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Georgetown</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Dupont Circle</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Adams Morgan</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-black text-white uppercase tracking-wider mb-3">Government</h4>
-              <ul className="space-y-1.5 text-xs">
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">DC Council</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Mayor's Office</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Federal Updates</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Public Records</a></li>
+              <h4 className="text-[11px] font-black text-white uppercase tracking-widest mb-4">Government</h4>
+              <ul className="space-y-2 text-xs">
+                <li><a href="#" className="hover:text-white transition-colors">DC Council</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Mayor's Office</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Federal Updates</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Public Records</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-black text-white uppercase tracking-wider mb-3">Sections</h4>
-              <ul className="space-y-1.5 text-xs">
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Investigations</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Opinion</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Obituaries</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Classifieds</a></li>
+              <h4 className="text-[11px] font-black text-white uppercase tracking-widest mb-4">Sections</h4>
+              <ul className="space-y-2 text-xs">
+                <li><a href="#" className="hover:text-white transition-colors">Investigations</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Opinion</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Obituaries</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Classifieds</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-black text-white uppercase tracking-wider mb-3">Connect</h4>
-              <ul className="space-y-1.5 text-xs">
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Tip Line</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Advertise</a></li>
-                <li><a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Careers</a></li>
-                <li>
-                  <a
-                    href="mailto:ciao_chris@proton.me"
-                    className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm"
-                  >
-                    Contact Us
-                  </a>
-                </li>
+              <h4 className="text-[11px] font-black text-white uppercase tracking-widest mb-4">Connect</h4>
+              <ul className="space-y-2 text-xs">
+                <li><a href="#" className="hover:text-white transition-colors">Tip Line</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Advertise</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li><a href="mailto:ciao_chris@proton.me" className="hover:text-white transition-colors">Contact Us</a></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
+          <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
             <p>&copy; 2026 Washington <span className="font-bold text-white">4</span> News. All rights reserved.</p>
-            <div className="flex items-center gap-4">
-              <a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Privacy Policy</a>
-              <a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Terms</a>
-              <a href="#" className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:rounded-sm">Accessibility</a>
-              <span className="text-gray-700">v1.<span className="text-gray-700">0</span></span>
+            <div className="flex items-center gap-5">
+              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-white transition-colors">Terms</a>
+              <a href="#" className="hover:text-white transition-colors">Accessibility</a>
+              <span className="text-gray-700">v1.0</span>
             </div>
           </div>
         </div>
