@@ -126,7 +126,7 @@ const DCNewsLanding = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50 font-body">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-white focus:text-blue-900 focus:px-4 focus:py-2 focus:rounded-sm focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
@@ -136,16 +136,22 @@ const DCNewsLanding = () => {
 
       {/* Top Bar */}
       <div className="bg-blue-950 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-1.5 flex items-center justify-between text-xs">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1"><Thermometer className="h-3 w-3" /> {weather.temp}°F</span>
-            <span className="flex items-center gap-1"><Cloud className="h-3 w-3" /> {weather.condition}</span>
-            <span className="flex items-center gap-1"><Wind className="h-3 w-3" /> {weather.wind}</span>
+        <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between text-xs tracking-wide">
+          <div className="flex items-center gap-5">
+            <span className="flex items-center gap-1.5 font-medium"><Thermometer className="h-3 w-3 opacity-70" /> {weather.temp}°F</span>
+            <span className="flex items-center gap-1.5 font-medium"><Cloud className="h-3 w-3 opacity-70" /> {weather.condition}</span>
+            <span className="hidden sm:flex items-center gap-1.5 font-medium"><Wind className="h-3 w-3 opacity-70" /> {weather.wind}</span>
           </div>
           <div className="flex items-center gap-3">
-            <span>{today}</span>
-            <span className="text-blue-300">|</span>
-            <span className="text-red-400 font-semibold animate-pulse">● LIVE</span>
+            <span className="hidden sm:inline text-blue-200">{today}</span>
+            <span className="text-blue-500 hidden sm:inline">|</span>
+            <span className="text-red-400 font-bold text-[11px] tracking-widest flex items-center gap-1.5">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+              </span>
+              LIVE
+            </span>
           </div>
         </div>
       </div>
