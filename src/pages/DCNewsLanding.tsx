@@ -261,37 +261,37 @@ const DCNewsLanding = () => {
             )}
 
             {/* Article Grid */}
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-5">
               {loading ? (
-                // Loading skeletons
                 Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="bg-white border border-gray-200 p-5 animate-pulse">
-                    <div className="h-4 w-20 bg-gray-200 rounded mb-3"></div>
-                    <div className="h-6 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-1"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-1 w-3/4"></div>
-                    <div className="h-3 w-1/2 bg-gray-200 rounded mt-4"></div>
+                  <div key={i} className="bg-white rounded-lg border border-gray-100 p-5 animate-pulse shadow-sm">
+                    <div className="h-36 bg-gray-100 rounded-md mb-4"></div>
+                    <div className="h-3 w-16 bg-gray-200 rounded-full mb-3"></div>
+                    <div className="h-5 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-100 rounded mb-1"></div>
+                    <div className="h-4 bg-gray-100 rounded w-3/4"></div>
+                    <div className="h-3 w-1/3 bg-gray-100 rounded-full mt-4"></div>
                   </div>
                 ))
               ) : (
                 gridArticles.map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 100}>
                     <article
-                      className={`bg-white border border-gray-200 hover:shadow-md transition-shadow group cursor-pointer h-full overflow-hidden`}
+                      className="bg-white rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300 group cursor-pointer h-full overflow-hidden shadow-sm"
                       onClick={() => handleArticleOpen(article)}
                     >
-                      <div className="h-36 bg-gray-100 overflow-hidden">
+                      <div className="h-40 bg-gray-100 overflow-hidden rounded-t-lg">
                         {article.image ? (
-                          <img src={article.image} alt="" className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
+                          <img src={article.image} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                         ) : (
                           <div className="h-full w-full flex items-center justify-center text-xs text-gray-400 bg-gradient-to-br from-gray-50 to-gray-100">
-                            <ImageOff className="h-4 w-4 mr-1.5" /> No image
+                            <ImageOff className="h-4 w-4 mr-1.5 opacity-50" /> No image
                           </div>
                         )}
                       </div>
                       <div className={densityCardClass}>
                         <div className="flex items-start justify-between gap-3 mb-2">
-                          <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-1.5 py-0.5">
+                          <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 px-2 py-0.5 rounded-full">
                             {article.source.name}
                           </span>
                           <button
@@ -300,21 +300,21 @@ const DCNewsLanding = () => {
                               event.stopPropagation();
                               dismissStory(article.id);
                             }}
-                            className="text-gray-300 hover:text-red-600 transition-colors"
+                            className="text-gray-300 hover:text-red-500 transition-colors"
                             aria-label="Dismiss story"
                           >
                             <X className="h-3.5 w-3.5" />
                           </button>
                         </div>
-                        <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
+                        <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-900 transition-colors font-headline">
                           {article.title}
                         </h3>
-                        <p className="text-sm text-gray-700 leading-relaxed line-clamp-3">
+                        <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
                           {article.description}
                         </p>
-                        <div className="flex items-center justify-between mt-3 text-xs text-gray-600">
-                          <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {formatTime(article.publishedAt)}</span>
-                          <ExternalLink className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+                        <div className="flex items-center justify-between mt-4 text-xs text-gray-500">
+                          <span className="flex items-center gap-1.5"><Clock className="h-3 w-3 opacity-60" /> {formatTime(article.publishedAt)}</span>
+                          <ExternalLink className="h-3 w-3 opacity-0 transition-opacity duration-200 group-hover:opacity-60" />
                         </div>
                       </div>
                     </article>
