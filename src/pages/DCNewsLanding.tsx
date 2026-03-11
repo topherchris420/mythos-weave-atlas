@@ -247,8 +247,8 @@ const DCNewsLanding = () => {
       </div>
 
       {/* Main Content */}
-      <main id="main-content" className="max-w-7xl mx-auto px-4 py-6" tabIndex={-1}>
-        <div className="grid lg:grid-cols-3 gap-6">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 py-8" tabIndex={-1}>
+        <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-0">
             {/* Lead Story */}
