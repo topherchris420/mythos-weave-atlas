@@ -157,10 +157,10 @@ const DCNewsLanding = () => {
       </div>
 
       {/* Masthead */}
-      <header className="bg-white border-b-4 border-blue-900">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+      <header className="bg-white border-b-[3px] border-blue-900 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-5">
           <div className="flex items-center justify-between gap-4">
-            <img src={dc4Logo} alt="DC4 News" className="h-12 w-auto" />
+            <img src={dc4Logo} alt="DC4 News" className="h-10 md:h-12 w-auto" />
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
@@ -169,10 +169,10 @@ const DCNewsLanding = () => {
                   placeholder="Search stories..."
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
-                  className="pl-8 h-8 w-32 md:w-48 text-sm border-gray-300 rounded-sm bg-gray-50"
+                  className="pl-8 h-9 w-36 md:w-52 text-sm border-gray-200 rounded-md bg-gray-50 focus:bg-white transition-colors"
                 />
               </div>
-              <Button type="submit" size="sm" className="h-8 bg-blue-900 hover:bg-blue-800 rounded-sm text-xs px-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-700">
+              <Button type="submit" size="sm" className="h-9 bg-blue-900 hover:bg-blue-800 rounded-md text-xs px-4 font-semibold tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-700">
                 Go
               </Button>
             </form>
