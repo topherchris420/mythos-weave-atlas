@@ -254,7 +254,7 @@ const DCNewsLanding = () => {
             {/* Lead Story */}
             {visibleArticles.length > 0 && (
               <ScrollReveal>
-                <div className="mb-4">
+                <div className="mb-6">
                   <FeaturedStoryCard article={articles[0]} formatTime={formatTime} />
                 </div>
               </ScrollReveal>
