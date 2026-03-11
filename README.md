@@ -11,13 +11,6 @@ A responsive local covert News website for Washington DC. Features real-time DC 
 - **Newsletter Signup** - Daily news delivered to your inbox
 - **Responsive Design** - Works on desktop, tablet, and mobile
 
-## 🛠️ Technologies
-
-- Pure HTML, CSS, and JavaScript (no frameworks)
-- GNews API for real-time news
-- CSS Grid and Flexbox for layout
-- Mobile-first responsive design
-
 ## 🚀 Quick Start
 
 Simply open `index.html` in a browser, or use a local server:
@@ -64,7 +57,3 @@ npm run build
 ```
 
 Output goes to `dist/` folder.
-
-## 📝 License
-
-MIT License
