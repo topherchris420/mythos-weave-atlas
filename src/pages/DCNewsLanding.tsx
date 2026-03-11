@@ -356,25 +356,25 @@ const DCNewsLanding = () => {
           </div>
 
           {/* Sidebar */}
-          <aside className="space-y-4">
+          <aside className="space-y-5">
             <ScrollReveal>
-              <div className="bg-white border border-gray-200 p-4">
-                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-blue-900 pb-2 mb-3">Your Preferences</h3>
+              <div className="bg-white rounded-lg border border-gray-100 p-5 shadow-sm">
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-blue-900 pb-2 mb-4">Your Preferences</h3>
                 <div className="space-y-3 text-xs">
                   <div>
-                    <p className="font-semibold text-gray-700 mb-1">Reading density</p>
+                    <p className="font-semibold text-gray-700 mb-1.5">Reading density</p>
                     <div className="flex gap-2">
                       <button
                         type="button"
                         onClick={() => setReadingDensity('comfortable')}
-                        className={`px-2.5 py-1 rounded-sm border ${readingDensity === 'comfortable' ? 'bg-blue-900 text-white border-blue-900' : 'border-gray-300 text-gray-600'}`}
+                        className={`px-3 py-1.5 rounded-md border transition-all duration-200 ${readingDensity === 'comfortable' ? 'bg-blue-900 text-white border-blue-900 shadow-sm' : 'border-gray-200 text-gray-600 hover:border-gray-300'}`}
                       >
                         Comfortable
                       </button>
                       <button
                         type="button"
                         onClick={() => setReadingDensity('compact')}
-                        className={`px-2.5 py-1 rounded-sm border ${readingDensity === 'compact' ? 'bg-blue-900 text-white border-blue-900' : 'border-gray-300 text-gray-600'}`}
+                        className={`px-3 py-1.5 rounded-md border transition-all duration-200 ${readingDensity === 'compact' ? 'bg-blue-900 text-white border-blue-900 shadow-sm' : 'border-gray-200 text-gray-600 hover:border-gray-300'}`}
                       >
                         Compact
                       </button>
@@ -385,26 +385,26 @@ const DCNewsLanding = () => {
                     <p className="text-gray-500 mt-0.5">{selectedCategory}</p>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <button type="button" onClick={restoreDismissedStories} className="text-blue-700 hover:underline">
+                    <button type="button" onClick={restoreDismissedStories} className="text-blue-700 hover:text-blue-900 hover:underline transition-colors">
                       Restore dismissed ({dismissedStories.length})
                     </button>
-                    <button type="button" onClick={clearContinueReading} className="text-blue-700 hover:underline">
+                    <button type="button" onClick={clearContinueReading} className="text-blue-700 hover:text-blue-900 hover:underline transition-colors">
                       Clear continue reading
                     </button>
                   </div>
-                  <p className="text-[11px] text-gray-500">Preferences stay in this browser only. No remote tracking.</p>
+                  <p className="text-[11px] text-gray-400">Preferences stay in this browser only. No remote tracking.</p>
                 </div>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={60}>
-              <div className="bg-white border border-gray-200 p-4">
-                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-emerald-700 pb-2 mb-3">For You</h3>
+              <div className="bg-white rounded-lg border border-gray-100 p-5 shadow-sm">
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-emerald-600 pb-2 mb-4">For You</h3>
                 {forYouArticles.length > 0 ? (
-                  <ul className="space-y-2">
+                  <ul className="space-y-2.5">
                     {forYouArticles.map((article) => (
                       <li key={article.id}>
-                        <button type="button" onClick={() => handleArticleOpen(article)} className="text-left w-full text-sm text-gray-700 hover:text-blue-900 leading-snug">
+                        <button type="button" onClick={() => handleArticleOpen(article)} className="text-left w-full text-sm text-gray-700 hover:text-blue-900 leading-snug transition-colors">
                           {article.title}
                         </button>
                       </li>
@@ -417,13 +417,13 @@ const DCNewsLanding = () => {
             </ScrollReveal>
 
             <ScrollReveal delay={80}>
-              <div className="bg-white border border-gray-200 p-4">
-                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-violet-700 pb-2 mb-3">Continue Reading</h3>
+              <div className="bg-white rounded-lg border border-gray-100 p-5 shadow-sm">
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-violet-600 pb-2 mb-4">Continue Reading</h3>
                 {continueReading.length > 0 ? (
-                  <ul className="space-y-2">
+                  <ul className="space-y-2.5">
                     {continueReading.map((item) => (
-                      <li key={item.id} className="text-xs">
-                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-700 hover:text-blue-900 leading-snug">
+                      <li key={item.id}>
+                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-700 hover:text-blue-900 leading-snug transition-colors">
                           {item.title}
                         </a>
                         <p className="text-[11px] text-gray-400 mt-0.5">{item.category} • {item.sourceName}</p>
@@ -437,17 +437,17 @@ const DCNewsLanding = () => {
             </ScrollReveal>
 
             <ScrollReveal delay={90}>
-              <div className="bg-white border border-gray-200 p-4">
-                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-blue-900 pb-2 mb-3">Weather</h3>
+              <div className="bg-white rounded-lg border border-gray-100 p-5 shadow-sm">
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-blue-900 pb-2 mb-4">Weather</h3>
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-4xl font-light text-gray-800">{weather.temp}°</span>
-                    <p className="text-xs text-gray-700 mt-1">{weather.condition}</p>
+                    <span className="text-5xl font-extralight text-gray-800 tabular-nums">{weather.temp}°</span>
+                    <p className="text-xs text-gray-600 mt-1.5 font-medium">{weather.condition}</p>
                   </div>
-                  <div className="text-right text-xs text-gray-700 space-y-1">
-                    <p>High: {weather.high}°F</p>
-                    <p>Low: {weather.low}°F</p>
-                    <p>Wind: {weather.wind}</p>
+                  <div className="text-right text-xs text-gray-600 space-y-1.5">
+                    <p className="flex items-center justify-end gap-1.5">↑ <span className="font-semibold">{weather.high}°F</span></p>
+                    <p className="flex items-center justify-end gap-1.5">↓ <span className="font-semibold">{weather.low}°F</span></p>
+                    <p className="text-gray-500">{weather.wind}</p>
                   </div>
                 </div>
               </div>
@@ -455,16 +455,16 @@ const DCNewsLanding = () => {
 
             {/* Most Read */}
             <ScrollReveal delay={100}>
-              <div className="bg-white border border-gray-200 p-4">
-                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-red-600 pb-2 mb-3">Most Read</h3>
-                <ol className="space-y-3">
+              <div className="bg-white rounded-lg border border-gray-100 p-5 shadow-sm">
+                <h3 className="text-xs font-black text-gray-900 uppercase tracking-wider border-b-2 border-red-600 pb-2 mb-4">Most Read</h3>
+                <ol className="space-y-3.5">
                   {sidebarStories.map((story, i) => (
                     <li key={i} className="flex items-start gap-3 group cursor-pointer">
                       <span className={`text-2xl font-black leading-none select-all ${
                         [0, 2, 6].includes(i) 
-                          ? 'text-red-600/30 hover:text-red-600 transition-all duration-500 animate-[subtle-glow_4s_ease-in-out_infinite]' 
+                          ? 'text-red-600/30 hover:text-red-600 transition-all duration-500 animate-[subtle-glow_4s_ease-in-out_infinite] font-headline' 
                           : 'text-gray-200'
-                      }`} style={[0, 2, 6].includes(i) ? { fontFamily: 'Georgia, serif', letterSpacing: '0.05em', animationDelay: `${i * 0.7}s` } : {}}>{i + 1}</span>
+                      }`} style={[0, 2, 6].includes(i) ? { letterSpacing: '0.05em', animationDelay: `${i * 0.7}s` } : {}}>{i + 1}</span>
                       <p className="text-sm text-gray-700 leading-snug group-hover:text-blue-900 transition-colors font-medium pt-0.5">
                         {story}
                       </p>
@@ -476,12 +476,12 @@ const DCNewsLanding = () => {
 
             {/* Contact CTA */}
             <ScrollReveal delay={200}>
-              <div className="bg-red-600 text-white p-4">
+              <div className="bg-gradient-to-br from-red-600 to-red-700 text-white p-5 rounded-lg shadow-md">
                 <h3 className="text-xs font-black uppercase tracking-wider mb-2">Get In Touch</h3>
-                <p className="text-xs text-red-100 mb-3">Have a story tip or want to connect?</p>
+                <p className="text-xs text-red-100 mb-4">Have a story tip or want to connect?</p>
                 <a
                   href="mailto:ciao_chris@proton.me"
-                  className="flex items-center justify-center gap-2 w-full h-10 bg-white text-red-700 hover:bg-gray-100 rounded-sm text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white"
+                  className="flex items-center justify-center gap-2 w-full h-10 bg-white text-red-700 hover:bg-red-50 rounded-md text-sm font-bold transition-all duration-200 shadow-sm hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-red-600 focus-visible:ring-white"
                 >
                   <Mail className="h-4 w-4" />
                   Email Us
