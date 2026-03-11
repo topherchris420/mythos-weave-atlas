@@ -325,27 +325,27 @@ const DCNewsLanding = () => {
 
             {/* More Articles */}
             {!loading && moreArticles.length > 0 && (
-              <div className="mt-4 grid md:grid-cols-2 gap-4">
+              <div className="mt-6 grid md:grid-cols-2 gap-5">
                 {moreArticles.map((article, idx) => (
                   <ScrollReveal key={article.id} delay={idx * 80}>
                     <article
-                      className="bg-white border border-gray-200 hover:shadow-md transition-shadow group cursor-pointer flex gap-3 overflow-hidden"
+                      className="bg-white rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300 group cursor-pointer flex gap-4 overflow-hidden shadow-sm"
                       onClick={() => handleArticleOpen(article)}
                     >
                       {article.image && (
-                        <div className="w-24 h-24 shrink-0 overflow-hidden">
-                          <img src={article.image} alt="" className="h-full w-full object-cover" loading="lazy" />
+                        <div className="w-28 h-28 shrink-0 overflow-hidden rounded-l-lg">
+                          <img src={article.image} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                         </div>
                       )}
                       <div className="p-3 flex flex-col justify-center">
-                        <h4 className="text-sm font-bold text-gray-900 mb-1 leading-snug group-hover:text-blue-900 transition-colors">
+                        <h4 className="text-sm font-bold text-gray-900 mb-1.5 leading-snug group-hover:text-blue-900 transition-colors font-headline">
                           {article.title}
                         </h4>
-                        <p className="text-xs text-gray-700 line-clamp-2 mb-2">
+                        <p className="text-xs text-gray-600 line-clamp-2 mb-2">
                           {article.description}
                         </p>
-                        <span className="text-[10px] text-gray-600 flex items-center gap-1">
-                          <Clock className="h-2.5 w-2.5" /> {formatTime(article.publishedAt)}
+                        <span className="text-[10px] text-gray-500 flex items-center gap-1.5">
+                          <Clock className="h-2.5 w-2.5 opacity-60" /> {formatTime(article.publishedAt)}
                         </span>
                       </div>
                     </article>
