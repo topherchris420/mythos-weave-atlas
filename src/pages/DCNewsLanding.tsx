@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Clock, Cloud, Thermometer, Wind, ExternalLink, Mail, X, ImageOff } from 'lucide-react';
 import { FeaturedStoryCard } from '@/components/FeaturedStoryCard';
-import { useDCNews, type NewsArticle } from '@/hooks/useDCNews';
+import { useDCNews } from '@/hooks/useDCNews';
 import { useNewsPreferences } from '@/hooks/useNewsPreferences';
 import { useDCWeather } from '@/hooks/useDCWeather';
 import { ScrollReveal } from '@/components/ScrollReveal';
@@ -15,7 +15,7 @@ const DCNewsLanding = () => {
   const [searchValue, setSearchValue] = useState('');
   const navLinks = ['Local', 'Politics', 'Crime & Safety', 'Weather', 'Traffic', 'Sports', 'Entertainment'] as const;
   const [activeCategory, setActiveCategory] = useState<(typeof navLinks)[number]>(navLinks[0]);
-  const { articles, loading, refresh } = useDCNews(activeCategory);
+  const { articles, loading } = useDCNews(activeCategory);
   const {
     selectedCategory, dismissedStories, dismissStory, restoreDismissedStories,
     readingDensity, setReadingDensity, viewedCategories, continueReading,
@@ -36,11 +36,6 @@ const DCNewsLanding = () => {
       window.location.href = 'mailto:ciao_chris@proton.me';
     }
   };
-
-  const breakingArticle = articles[0];
-  const leadArticle = articles[0];
-  const gridArticles = articles.slice(1, 5);
-  const moreArticles = articles.slice(5, 9);
 
   const sidebarStories = [
     "Council approves new bike lane network for NW",
@@ -66,6 +61,10 @@ const DCNewsLanding = () => {
   const visibleArticles = articles
     .filter((article) => !dismissedStories.includes(article.id))
     .filter((article) => selectedCategory === 'All' || getArticleCategory(article.title, article.source.name) === selectedCategory);
+
+  const breakingArticle = articles[0];
+  const gridArticles = visibleArticles.slice(1, 5);
+  const moreArticles = visibleArticles.slice(5, 9);
 
   const forYouArticles = articles
     .filter((article) => !dismissedStories.includes(article.id))
@@ -96,6 +95,7 @@ const DCNewsLanding = () => {
       const diffDays = Math.floor(diffHours / 24);
 
       if (diffHours < 1) return 'Just now';
+      if (diffHours === 1) return '1 hour ago';
       if (diffHours < 24) return `${diffHours} hours ago`;
       if (diffDays === 1) return 'Yesterday';
       if (diffDays < 7) return `${diffDays} days ago`;
@@ -115,15 +115,6 @@ const DCNewsLanding = () => {
 
   // Live weather data
   const { weather } = useDCWeather();
-
-  const estimateReadTime = (article: NewsArticle) => {
-    const words = `${article.title} ${article.description} ${article.content || ''}`
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean).length;
-    const minutes = Math.max(1, Math.round(words / 200));
-    return `${minutes} min read`;
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 font-body">
@@ -165,7 +156,7 @@ const DCNewsLanding = () => {
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
                 <Input
-                  type="password"
+                  type="text"
                   placeholder="Search stories..."
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
@@ -255,7 +246,7 @@ const DCNewsLanding = () => {
             {visibleArticles.length > 0 && (
               <ScrollReveal>
                 <div className="mb-6">
-                  <FeaturedStoryCard article={articles[0]} formatTime={formatTime} />
+                  <FeaturedStoryCard article={visibleArticles[0]} formatTime={formatTime} />
                 </div>
               </ScrollReveal>
             )}
