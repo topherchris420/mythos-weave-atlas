@@ -1,6 +1,4 @@
 
-import { LucideIcon } from 'lucide-react';
-
 export interface ArchetypalLandform {
   id: string;
   type: 'mountain' | 'river' | 'forest' | 'cave' | 'altar' | 'abyss' | 'crystal' | 'flame';
@@ -10,7 +8,7 @@ export interface ArchetypalLandform {
   intensity: number;
   resonance: 'calm' | 'turbulent' | 'growth' | 'shadow' | 'breakthrough';
   interactions: string[];
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   color: string;
   timestamp: Date;
 }
@@ -28,7 +26,7 @@ export interface SymbolicTool {
   type: 'compass' | 'torch' | 'mirror' | 'crystal' | 'glyph';
   power: number;
   resonance: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 export type NavigationMode = 'overview' | 'ritual' | 'dream' | 'integration' | 'journal';
